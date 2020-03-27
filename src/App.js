@@ -1,10 +1,12 @@
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import { MainRoutes } from "./config/routes.config";
 
 function App() {
   return (
-    <div>
-      <h3>Covid Multilingual Dashboard</h3>
-    </div>
+    <BrowserRouter>
+      <MainRoutes />
+    </BrowserRouter>
   );
 }
 
