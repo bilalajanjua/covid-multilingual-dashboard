@@ -41,9 +41,30 @@
   min-height: 85vh;
 }
 
+.d-hidden {
+  display: none;
+}
+
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
   #site-main-content {
     padding: 0 0;
+  }
+  .site-title {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 1.4em;
+  }
+  #main-header {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    align-content: center;
+    align-items: center;
+  }
+
+  .d-hidden {
+    display: block;
   }
 }
