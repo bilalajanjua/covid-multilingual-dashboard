@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
+import moment from "moment";
 import MainLayout from "./shared/MainLayout";
 import { useQuery } from "@apollo/react-hooks";
-import { getAllCountries, getAllStats } from "../services/dashboard.service";
+import Highlighter from "react-highlight-words";
+import { SearchOutlined } from "@ant-design/icons";
+import { LineCharts } from "./charts/Linecharts";
 import {
   Col,
   Row,
@@ -9,20 +12,29 @@ import {
   Card,
   Statistic,
   Table,
-  Avatar,
   Descriptions,
   Input,
   Tag,
   Button,
+  Spin,
   Divider
 } from "antd";
-import moment from "moment";
-import Highlighter from "react-highlight-words";
-import { SearchOutlined } from "@ant-design/icons";
+import {
+  getAllCountries,
+  getAllStats,
+  getHistoricalData
+} from "../services/dashboard.service";
 const Dashboard = props => {
+  const { loading, data, error } = useQuery(getAllStats);
+  const {
+    loading: loadingLines,
+    data: dataLines,
+    error: errorLines
+  } = useQuery(getHistoricalData);
+
   const [searchText, setSearchText] = React.useState("");
   const [searchedColumn, setSearchedColumn] = React.useState("");
-  const { loading, data, error } = useQuery(getAllStats);
+  const [lineChartData, setLineChartData] = React.useState([]);
   const {
     loading: loadingCountries,
     data: countryData,
@@ -113,7 +125,7 @@ const Dashboard = props => {
       width: 120,
       render: (text, record) => (
         <span>
-          <img src={record.countryInfo.flag} width="18px" />{" "}
+          <img src={record.countryInfo.flag} alt={text} width="18px" />{" "}
           <h4
             style={{
               display: "inline"
@@ -161,6 +173,37 @@ const Dashboard = props => {
     }
   ];
 
+  useEffect(() => {
+    if (dataLines) {
+      const cases = dataLines.worldwideHistoricalData.cases.map(x => {
+        return {
+          x: x.date,
+          y: x.count
+        };
+      });
+      const death = dataLines.worldwideHistoricalData.cases.map(x => {
+        return {
+          x: x.date,
+          y: x.count
+        };
+      });
+
+      const linedata = [
+        {
+          id: "totalCases",
+          color: "hsl(309, 70%, 50%)",
+          data: cases
+        },
+        {
+          id: "death",
+          color: "hsl(355, 70%, 50%)",
+          data: death
+        }
+      ];
+
+      setLineChartData(linedata);
+    }
+  }, [dataLines]);
   return (
     <MainLayout {...props}>
       <PageHeader
@@ -223,6 +266,16 @@ const Dashboard = props => {
         </>
       </Row>
 
+      {loadingLines && (
+        <div style={{ textAlign: "center", height: "100px" }}>
+          <Spin />
+        </div>
+      )}
+      {!loadingLines && dataLines && (
+        <div style={{ textAlign: "center", height: "650px" }}>
+          <LineCharts data={lineChartData} />
+        </div>
+      )}
       <Row>
         <Col span={24}>
           <h3> Overall Status by Province</h3>
