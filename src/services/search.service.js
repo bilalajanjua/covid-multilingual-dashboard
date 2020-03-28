@@ -1,12 +1,21 @@
 import { gql } from "apollo-boost";
 
 export const GET_COUNTRIES_LIST = gql`
-  query {
-    countries {
+  query($criteria: String) {
+    countries(sort: $criteria) {
       country
       countryInfo {
         flag
       }
+      todayCases
+      cases
+      deaths
+      todayDeaths
+      recovered
+      active
+      critical
+      casesPerOneMillion
+      deathsPerOneMillion
     }
   }
 `;
