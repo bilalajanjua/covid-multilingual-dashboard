@@ -11,7 +11,7 @@ export const CalendarChart = ({ data, from, to, height }) => {
         emptyColor="#eeeeee"
         colors={["#61cdbb", "#97e3d5", "#e8c1a0", "#f47560"]}
         minValue="auto"
-        margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
+        margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
         yearSpacing={35}
         yearLegendOffset={20}
         monthBorderColor="#ffffff"

@@ -27,7 +27,7 @@ function MainLayout(props) {
           <Menu.Item key="/map">Map</Menu.Item>
         </Menu>
       </Header>
-      <Content style={{ padding: "0 50px", minHeight: "85vh" }}>
+      <Content id="site-main-content">
         <div className="site-layout-content">{props.children}</div>
       </Content>
       <Footer style={{ textAlign: "center" }}>

@@ -35,3 +35,15 @@
     0 0.25rem 0.53125rem rgba(90, 97, 105, 0.12),
     0 0.125rem 0.1875rem rgba(90, 97, 105, 0.1);
 }
+
+#site-main-content {
+  padding: 0 50px;
+  min-height: 85vh;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  #site-main-content {
+    padding: 0 0;
+  }
+}
