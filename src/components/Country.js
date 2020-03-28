@@ -15,8 +15,8 @@ import {
   Statistic
 } from "antd";
 import { Link } from "react-router-dom";
-import { CalendarChart } from "./charts/Calendar";
 import moment from "moment";
+import { TimeSeriesLineChart } from "./charts/TimeSeriesLineChart";
 
 function Country(props) {
   const { name } = props.match.params;
@@ -71,19 +71,23 @@ function Country(props) {
     />
   );
 
-  const GetCalendarProps = type => {
+  const GetChartProps = type => {
     const timeline = data.historicalStats.timeline[type];
     const timelineKeys = Object.keys(timeline);
     const chartData = timelineKeys.map(date => {
       return {
-        day: moment(new Date(date)).format("YYYY-MM-DD"),
-        value: timeline[date]
+        x: moment(new Date(date)).format("YYYY-MM-DD"),
+        y: timeline[date]
       };
     });
+
     return {
-      data: chartData,
-      from: moment(duration[type].from).format("YYYY-MM-DD"),
-      to: moment(duration[type].to).format("YYYY-MM-DD")
+      data: [
+        {
+          id: `${type}-data`,
+          data: chartData
+        }
+      ]
     };
   };
 
@@ -227,7 +231,11 @@ function Country(props) {
             }
             className="shadow"
           >
-            <CalendarChart {...GetCalendarProps("cases")} height="220px" />
+            <TimeSeriesLineChart
+              {...GetChartProps("cases")}
+              height={500}
+              type="Cases"
+            />
           </Card>
           <Divider />
           <Card
@@ -246,7 +254,11 @@ function Country(props) {
             }
             className="shadow"
           >
-            <CalendarChart {...GetCalendarProps("deaths")} height="220px" />
+            <TimeSeriesLineChart
+              {...GetChartProps("deaths")}
+              height={500}
+              type="Deaths"
+            />
           </Card>
         </div>
       )}
