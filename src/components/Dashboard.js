@@ -12,10 +12,13 @@ import {
   Avatar,
   Descriptions,
   Input,
-  Button
+  Tag,
+  Button,
+  Divider
 } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import moment from "moment";
 import Highlighter from "react-highlight-words";
+import { SearchOutlined } from "@ant-design/icons";
 const Dashboard = props => {
   const [searchText, setSearchText] = React.useState("");
   const [searchedColumn, setSearchedColumn] = React.useState("");
@@ -25,7 +28,7 @@ const Dashboard = props => {
     data: countryData,
     error: countryError
   } = useQuery(getAllCountries);
-  let searchInput = '';
+  let searchInput = "";
   const getColumnSearchProps = dataIndex => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -106,6 +109,8 @@ const Dashboard = props => {
       title: "Country",
       dataIndex: "country",
       key: "country",
+      fixed: "left",
+      width: 120,
       render: (text, record) => (
         <span>
           <img src={record.countryInfo.flag} width="18px" />{" "}
@@ -124,28 +129,35 @@ const Dashboard = props => {
       title: "Total Cases",
       dataIndex: "cases",
       key: "cases",
-      sorter: true,
+      width: 100,
+
+      sorter: true
     },
     {
       title: "Deaths",
       dataIndex: "deaths",
       key: "deaths",
-      sorter: true,
+      width: 100,
+
+      sorter: true
     },
     {
       title: "Recovered",
       dataIndex: "recovered",
-      key: "recovered"
+      key: "recovered",
+      width: 100
     },
     {
       title: "Active",
       dataIndex: "active",
-      key: "active"
+      key: "active",
+      width: 100
     },
     {
       title: "Critical",
       dataIndex: "critical",
-      key: "critical"
+      key: "critical",
+      width: 100
     }
   ];
 
@@ -155,25 +167,31 @@ const Dashboard = props => {
         title={"Covid19 Multilingual Dashboard"}
         subTitle={"Kuch BHI, ENglish aati hai"}
       />
-
+      {!loading && data && (
+        <Divider orientation="left">
+          <Tag color="green">
+            Updated: {moment(data.all.updated).format("DD MMMM YYYY hh:mm a")}
+          </Tag>
+        </Divider>
+      )}
       <Row gutter={[16, 16]}>
         <>
           {loading && (
             <>
-              <Col span={8}>
+              <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                 <Card loading />
               </Col>
-              <Col span={8}>
+              <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                 <Card loading />
               </Col>
-              <Col span={8}>
+              <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                 <Card loading />
               </Col>
             </>
           )}
           {!loading && data && (
             <>
-              <Col span={8}>
+              <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                 <Card>
                   <Statistic
                     title="Total Cases"
@@ -182,7 +200,7 @@ const Dashboard = props => {
                   />
                 </Card>
               </Col>
-              <Col span={8}>
+              <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                 <Card>
                   <Statistic
                     title="Recoverd"
@@ -191,7 +209,7 @@ const Dashboard = props => {
                   />
                 </Card>
               </Col>
-              <Col span={8}>
+              <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                 <Card>
                   <Statistic
                     title="Deaths"
@@ -213,6 +231,7 @@ const Dashboard = props => {
             <Table
               rowKey={"country"}
               columns={columns}
+              style={{ overflowX: "auto" }}
               expandable={{
                 expandedRowRender: record => (
                   <>
