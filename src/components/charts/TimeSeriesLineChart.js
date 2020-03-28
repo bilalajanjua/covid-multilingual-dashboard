@@ -46,9 +46,16 @@ export const TimeSeriesLineChart = ({ data, height, type }) => {
         tooltip={({ point }) => {
           const { data } = point;
           return (
-            <span style={{ padding: "5px" }} className="shadow">
+            <span
+              style={{
+                padding: "5px",
+                background: "white",
+                textAlign: "center"
+              }}
+              className="shadow"
+            >
               <b>
-                {data.y} {type} on {moment(data.x).format("LL")}
+                Total {data.y} {type} recorded on {moment(data.x).format("LL")}
               </b>
             </span>
           );
