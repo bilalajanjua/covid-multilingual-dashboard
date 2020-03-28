@@ -29,3 +29,18 @@ export const getAllStats = gql`
     }
   }
 `;
+
+export const getHistoricalData = gql`
+  query {
+    worldwideHistoricalData {
+      cases {
+        date
+        count
+      }
+      deaths {
+        date
+        count
+      }
+    }
+  }
+`;
