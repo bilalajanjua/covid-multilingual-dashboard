@@ -25,7 +25,7 @@ const Dashboard = props => {
     data: countryData,
     error: countryError
   } = useQuery(getAllCountries);
-  let searchInput = '';
+  let searchInput = "";
   const getColumnSearchProps = dataIndex => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -106,6 +106,8 @@ const Dashboard = props => {
       title: "Country",
       dataIndex: "country",
       key: "country",
+      fixed: "left",
+      width: 120,
       render: (text, record) => (
         <span>
           <img src={record.countryInfo.flag} width="18px" />{" "}
@@ -124,28 +126,35 @@ const Dashboard = props => {
       title: "Total Cases",
       dataIndex: "cases",
       key: "cases",
-      sorter: true,
+      width: 100,
+
+      sorter: true
     },
     {
       title: "Deaths",
       dataIndex: "deaths",
       key: "deaths",
-      sorter: true,
+      width: 100,
+
+      sorter: true
     },
     {
       title: "Recovered",
       dataIndex: "recovered",
-      key: "recovered"
+      key: "recovered",
+      width: 100
     },
     {
       title: "Active",
       dataIndex: "active",
-      key: "active"
+      key: "active",
+      width: 100
     },
     {
       title: "Critical",
       dataIndex: "critical",
-      key: "critical"
+      key: "critical",
+      width: 100
     }
   ];
 
@@ -213,6 +222,7 @@ const Dashboard = props => {
             <Table
               rowKey={"country"}
               columns={columns}
+              style={{ overflowX: "auto" }}
               expandable={{
                 expandedRowRender: record => (
                   <>
