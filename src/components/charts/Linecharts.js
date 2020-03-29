@@ -5,12 +5,17 @@ export const LineCharts = ({ data }) => (
   <ResponsiveLine
     data={data}
     margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-    xScale={{ type: "point" }}
+    xScale={{
+      type: "time",
+      format: "%Y-%m-%d",
+      precision: "day"
+    }}
+    xFormat="time:%Y-%m-%d"
     yScale={{
       type: "linear",
       min: "auto",
       max: "auto",
-      stacked: true,
+      stacked: false,
       reverse: false
     }}
     axisTop={null}
@@ -19,10 +24,12 @@ export const LineCharts = ({ data }) => (
       orient: "bottom",
       tickSize: 5,
       tickPadding: 5,
-      tickRotation: 0,
       legend: "days",
       legendOffset: 36,
-      legendPosition: "middle"
+      legendPosition: "middle",
+      format: "%b %d",
+      tickValues: "every 5 days",
+      tickRotation: 20
     }}
     axisLeft={{
       orient: "left",
@@ -30,7 +37,7 @@ export const LineCharts = ({ data }) => (
       tickPadding: 5,
       tickRotation: 0,
       legend: "count",
-      legendOffset: -40,
+      legendOffset: -55,
       legendPosition: "middle"
     }}
     colors={{ scheme: "nivo" }}
@@ -38,19 +45,19 @@ export const LineCharts = ({ data }) => (
     pointColor={{ theme: "background" }}
     pointBorderWidth={2}
     pointBorderColor={{ from: "serieColor" }}
-    pointLabel="y"
+    pointLabel="Deaths"
     pointLabelYOffset={-12}
     useMesh={true}
     legends={[
       {
         anchor: "bottom-right",
-        direction: "column",
+        direction: "row",
         justify: false,
         translateX: 100,
-        translateY: 0,
+        translateY: 55,
         itemsSpacing: 0,
         itemDirection: "left-to-right",
-        itemWidth: 80,
+        itemWidth: 90,
         itemHeight: 20,
         itemOpacity: 0.75,
         symbolSize: 12,
@@ -67,5 +74,37 @@ export const LineCharts = ({ data }) => (
         ]
       }
     ]}
+    enableSlices="x"
+    sliceTooltip={({ slice }) => {
+      console.log(slice);
+      return (
+        <div
+          style={{
+            background: "white",
+            padding: "9px 12px",
+            border: "1px solid #ccc"
+          }}
+        >
+          <div
+            style={{
+              textAlign: "left"
+            }}
+          >
+            Date: {slice.points[0].data.xFormatted}
+          </div>
+          {slice.points.map(point => (
+            <div
+              key={point.id}
+              style={{
+                color: point.serieColor,
+                padding: "3px 0"
+              }}
+            >
+              <strong>{point.serieId}</strong> [{point.data.yFormatted}]
+            </div>
+          ))}
+        </div>
+      );
+    }}
   />
 );

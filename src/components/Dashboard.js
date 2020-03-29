@@ -177,26 +177,28 @@ const Dashboard = props => {
     if (dataLines) {
       const cases = dataLines.worldwideHistoricalData.cases.map(x => {
         return {
-          x: x.date,
+          x: moment(new Date(x.date))
+            .format("YYYY-MM-DD")
+            .toString(),
           y: x.count
         };
       });
-      const death = dataLines.worldwideHistoricalData.cases.map(x => {
+      const death = dataLines.worldwideHistoricalData.deaths.map(x => {
         return {
-          x: x.date,
+          x: moment(new Date(x.date))
+            .format("YYYY-MM-DD")
+            .toString(),
           y: x.count
         };
       });
 
       const linedata = [
         {
-          id: "totalCases",
-          color: "hsl(309, 70%, 50%)",
+          id: "Total Cases",
           data: cases
         },
         {
-          id: "death",
-          color: "hsl(355, 70%, 50%)",
+          id: "Total Deaths",
           data: death
         }
       ];
