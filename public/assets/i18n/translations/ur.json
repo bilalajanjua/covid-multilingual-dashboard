@@ -24,5 +24,22 @@
   "result.500.subTitle": "معذرت ، سرور سے ڈیٹا بازیافت کرتے وقت ایک خامی تھی۔ براہ کرم پیج کو دوبارہ لوڈ کرنے کی کوشش کریں!",
   "chart.series.title.recorded": "درج",
   "chart.type.title.cases": "متاثرین",
-  "chart.type.title.deaths": "اموات"
+  "chart.type.title.deaths": "اموات",
+  "searchByCountry.text.title": "بذریعہ ملک کورونا وائرس متاثرین",
+  "searchByCountry.text.subtitle": "کورونا وائرس متاثرین کی تفصیلات ملک کے لحاظ سے دیکھیں",
+  "searchByCountry.text.totalCountries": "کل ممالک:",
+  "searchByCountry.label.searchCountry": "ملک تلاش کریں:",
+  "searchByCountry.label.selectCountry": "ملک کا انتخاب کیجئے:",
+  "searchByCountry.label.sortCountries": "ممالک کو فلٹرز کے لحاظ سے ترتیب دیں:",
+  "searchByCountry.text.todayCases": "آج کے متاثرین",
+  "searchByCountry.text.todayDeaths": "آج کی اموات",
+  "searchByCountry.text.totalCases": "کل متاثرین",
+  "searchByCountry.text.totalDeaths": "کل اموات",
+  "searchByCountry.text.recoveredCases": "بازیافت متاثرین",
+  "searchByCountry.text.activeCases": "موجودہ متاثرین",
+  "searchByCountry.text.criticalCases": "سنگین متاثرین",
+  "searchByCountry.text.casesPerMillion": "متاثرین فی ملین",
+  "searchByCountry.text.deathsPerMillion": "اموات فی ملین",
+  "searchByCountry.text.helper.1": "ہم نیچے <b>COVID19</b> کی وجہ سے",
+  "searchByCountry.text.helper.2": "پر مبنی <b>ٹاپ 24 ممالک <b/>دکھا رہے ہیں۔ نیچے سے کسی ملک کا انتخاب کریں یا تفصیلات دیکھنے کے لئے اوپر تلاش کریں۔"
 }

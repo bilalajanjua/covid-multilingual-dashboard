@@ -24,5 +24,22 @@
   "result.500.subTitle": "Sorry, there was an error while fetching the data from server. Please try reloading the page!.",
   "chart.series.title.recorded": "Recorded",
   "chart.type.title.cases": "Cases",
-  "chart.type.title.deaths": "Deaths"
+  "chart.type.title.deaths": "Deaths",
+  "searchByCountry.text.title": "Search By Country",
+  "searchByCountry.text.subtitle": "Filter the Reports of Coronavirus by Country",
+  "searchByCountry.text.totalCountries": "Total Countries:",
+  "searchByCountry.label.searchCountry": "Search Country:",
+  "searchByCountry.label.selectCountry": "Select Country:",
+  "searchByCountry.label.sortCountries": "Sort Countries:",
+  "searchByCountry.text.todayCases": "Today's Cases",
+  "searchByCountry.text.todayDeaths": "Today's Deaths",
+  "searchByCountry.text.totalCases": "Total Cases",
+  "searchByCountry.text.totalDeaths": "Total Deaths",
+  "searchByCountry.text.recoveredCases": "Recovered Cases",
+  "searchByCountry.text.activeCases": "Active Cases",
+  "searchByCountry.text.criticalCases": "Critical Cases",
+  "searchByCountry.text.casesPerMillion": "Cases Per Million",
+  "searchByCountry.text.deathsPerMillion": "Deaths Per Million",
+  "searchByCountry.text.helper.1": "Showing <b>Top 24 Countries</b> based on the number of",
+  "searchByCountry.text.helper.2": "due to <b>COVID19</b>. Select a country from below or search above to view the details."
 }
