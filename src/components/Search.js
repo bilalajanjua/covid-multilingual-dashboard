@@ -12,6 +12,7 @@ import {
   Row,
   Col
 } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_COUNTRIES_LIST } from "../services/search.service";
 import { useTranslation } from "react-i18next";
@@ -56,7 +57,13 @@ function Search(props) {
       <PageHeader
         title={t("searchByCountry.text.title")}
         subTitle={t("searchByCountry.text.subtitle")}
-        avatar={{ src: "/assets/icons/world.svg" }}
+        avatar={{
+          icon: <SearchOutlined />,
+          style: {
+            background: "none",
+            color: "black"
+          }
+        }}
         tags={
           data
             ? [

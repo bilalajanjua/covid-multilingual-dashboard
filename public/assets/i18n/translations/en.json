@@ -41,5 +41,8 @@
   "searchByCountry.text.casesPerMillion": "Cases Per Million",
   "searchByCountry.text.deathsPerMillion": "Deaths Per Million",
   "searchByCountry.text.helper.1": "Showing <b>Top 24 Countries</b> based on the number of",
-  "searchByCountry.text.helper.2": "due to <b>COVID19</b>. Select a country from below or search above to view the details."
+  "searchByCountry.text.helper.2": "due to <b>COVID19</b>. Select a country from below or search above to view the details.",
+  "map.label.selectCriteria": "Select Criteria:",
+  "map.controlPanel.title": "Coronavirus Spread",
+  "map.controlPanel.subtitle": "View Coronavirus Worldwide Spread on Map"
 }
