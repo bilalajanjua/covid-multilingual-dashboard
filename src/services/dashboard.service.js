@@ -1,6 +1,13 @@
 import { gql } from "apollo-boost";
-export const getAllCountries = gql`
+
+export const getAllStats = gql`
   query {
+    all {
+      cases
+      deaths
+      recovered
+      updated
+    }
     countries {
       country
       countryInfo {
@@ -17,21 +24,6 @@ export const getAllCountries = gql`
       casesPerOneMillion
       deathsPerOneMillion
     }
-  }
-`;
-export const getAllStats = gql`
-  query {
-    all {
-      cases
-      deaths
-      recovered
-      updated
-    }
-  }
-`;
-
-export const getHistoricalData = gql`
-  query {
     worldwideHistoricalData {
       cases {
         date

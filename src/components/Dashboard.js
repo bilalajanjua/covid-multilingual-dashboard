@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
 import moment from "moment";
+import React, { useEffect } from "react";
 import MainLayout from "./shared/MainLayout";
 import { useQuery } from "@apollo/react-hooks";
 import Highlighter from "react-highlight-words";
-import { SearchOutlined } from "@ant-design/icons";
 import { LineCharts } from "./charts/Linecharts";
+import { SearchOutlined } from "@ant-design/icons";
+import { getAllStats } from "../services/dashboard.service";
+
 import {
   Col,
   Row,
@@ -19,27 +21,15 @@ import {
   Spin,
   Divider
 } from "antd";
-import {
-  getAllCountries,
-  getAllStats,
-  getHistoricalData
-} from "../services/dashboard.service";
+
+
 const Dashboard = props => {
   const { loading, data, error } = useQuery(getAllStats);
-  const {
-    loading: loadingLines,
-    data: dataLines,
-    error: errorLines
-  } = useQuery(getHistoricalData);
 
   const [searchText, setSearchText] = React.useState("");
   const [searchedColumn, setSearchedColumn] = React.useState("");
   const [lineChartData, setLineChartData] = React.useState([]);
-  const {
-    loading: loadingCountries,
-    data: countryData,
-    error: countryError
-  } = useQuery(getAllCountries);
+
   let searchInput = "";
   const getColumnSearchProps = dataIndex => ({
     filterDropdown: ({
@@ -174,51 +164,58 @@ const Dashboard = props => {
   ];
 
   useEffect(() => {
-    if (dataLines) {
-      const cases = dataLines.worldwideHistoricalData.cases.map(x => {
+    if (data) {
+      const cases = data.worldwideHistoricalData.cases.map(x => {
         return {
-          x: moment(new Date(x.date))
-            .format("YYYY-MM-DD")
-            .toString(),
+          x: new Date(x.date).getTime(),
           y: x.count
         };
       });
-      const death = dataLines.worldwideHistoricalData.deaths.map(x => {
+      const death = data.worldwideHistoricalData.deaths.map(x => {
         return {
-          x: moment(new Date(x.date))
-            .format("YYYY-MM-DD")
-            .toString(),
+          x: new Date(x.date).getTime(),
           y: x.count
         };
       });
-
+      const recovered = data.worldwideHistoricalData.cases.map(x => {
+        return {
+          x: new Date(x.date).getTime(),
+          y: data.all.recovered
+        };
+      });
       const linedata = [
         {
-          id: "Total Cases",
+          name: "Total Cases",
           data: cases
         },
         {
-          id: "Total Deaths",
+          name: "Total Deaths",
           data: death
+        },
+        {
+          name: "Recovered Till Now",
+          data: recovered
         }
       ];
 
       setLineChartData(linedata);
     }
-  }, [dataLines]);
+  }, [data]);
   return (
     <MainLayout {...props}>
       <PageHeader
         title={"Covid19 Multilingual Dashboard"}
-        subTitle={"Kuch BHI, ENglish aati hai"}
+        subTitle={"Daily Updated Corona Virus Statistics"}
+        extra={
+          !loading &&
+          data && (
+            <Tag color="green">
+              Updated: {moment(data.all.updated).format("DD MMMM YYYY hh:mm a")}
+            </Tag>
+          )
+        }
       />
-      {!loading && data && (
-        <Divider orientation="left">
-          <Tag color="green">
-            Updated: {moment(data.all.updated).format("DD MMMM YYYY hh:mm a")}
-          </Tag>
-        </Divider>
-      )}
+
       <Row gutter={[16, 16]}>
         <>
           {loading && (
@@ -237,7 +234,7 @@ const Dashboard = props => {
           {!loading && data && (
             <>
               <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                <Card>
+                <Card className="shadow">
                   <Statistic
                     title="Total Cases"
                     value={data.all.cases}
@@ -246,7 +243,7 @@ const Dashboard = props => {
                 </Card>
               </Col>
               <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                <Card>
+                <Card className="shadow">
                   <Statistic
                     title="Recoverd"
                     value={data.all.recovered}
@@ -255,7 +252,7 @@ const Dashboard = props => {
                 </Card>
               </Col>
               <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                <Card>
+                <Card className="shadow">
                   <Statistic
                     title="Deaths"
                     value={data.all.deaths}
@@ -268,43 +265,52 @@ const Dashboard = props => {
         </>
       </Row>
 
-      {loadingLines && (
-        <div style={{ textAlign: "center", height: "100px" }}>
-          <Spin />
+      {loading && (
+        <div style={{ textAlign: "center" }}>
+          <Row gutter={[16, 16]}>
+          <Col span={24}>
+            <Card loading/>
+          </Col>
+        </Row>
         </div>
       )}
-      {!loadingLines && dataLines && (
-        <div style={{ textAlign: "center", height: "650px" }}>
-          <LineCharts data={lineChartData} />
-        </div>
+      {!loading && data && (
+        <Row gutter={[16, 16]}>
+          <Col span={24}>
+            <Card className="shadow">
+              <LineCharts data={lineChartData} />
+            </Card>
+          </Col>
+        </Row>
       )}
-      <Row>
+      <Row gutter={[16, 16]}>
         <Col span={24}>
-          <h3> Overall Status by Province</h3>
-          {loadingCountries && <Card loading />}
-          {!loadingCountries && countryData && (
-            <Table
-              rowKey={"country"}
-              columns={columns}
-              style={{ overflowX: "auto" }}
-              expandable={{
-                expandedRowRender: record => (
-                  <>
-                    <Descriptions title="Statistical Info">
-                      <Descriptions.Item label="Cases Per One Million">
-                        {record.casesPerOneMillion}
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Deaths Per One Million ">
-                        {record.deathsPerOneMillion}
-                      </Descriptions.Item>
-                    </Descriptions>
-                  </>
-                ),
-                rowExpandable: record => record.name !== "Not Expandable"
-              }}
-              dataSource={countryData.countries}
-            />
-          )}
+          <Card className="shadow" title="Overall Status by Province">
+            {loading && <Card loading />}
+            {!loading && data && (
+              <Table
+                rowKey={"country"}
+                columns={columns}
+                style={{ overflowX: "auto" }}
+                expandable={{
+                  expandedRowRender: record => (
+                    <>
+                      <Descriptions title="Statistical Info">
+                        <Descriptions.Item label="Cases Per One Million">
+                          {record.casesPerOneMillion}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Deaths Per One Million ">
+                          {record.deathsPerOneMillion}
+                        </Descriptions.Item>
+                      </Descriptions>
+                    </>
+                  ),
+                  rowExpandable: record => record.name !== "Not Expandable"
+                }}
+                dataSource={data.countries}
+              />
+            )}
+          </Card>
         </Col>
       </Row>
     </MainLayout>
