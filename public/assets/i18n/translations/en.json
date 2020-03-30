@@ -1,4 +1,24 @@
 {
-  "hello.label": "Hello",
-  "thankyou.label": "Thank you"
+  "site.direction": "ltr",
+  "site.title": "Covid19 Dashboard",
+  "menu.dashboard": "Dashboard",
+  "menu.searchByCountry": "Search By Country",
+  "menu.map": "Map",
+  "country.header.subtitle": "View Details of Coronavirus Spread in",
+  "country.text.totalCases": "Total Cases:",
+  "country.text.todayCases": "Today's Cases",
+  "country.text.todayDeaths": "Today's Deaths",
+  "country.text.criticalCases": "Critical Cases",
+  "country.text.activeCases": "Active Cases",
+  "country.text.totalCasesTitle": "Total Cases",
+  "country.text.totalDeaths": "Total Deaths",
+  "country.text.recoveredCases": "Recovered Cases",
+  "country.text.deathsPerMillion": "Deaths Per Million",
+  "country.text.perMillion": "per Million",
+  "country.text.duration": "Duration:",
+  "country.card.title.totalCases": "Total Cases in",
+  "country.card.title.totalDeaths": "Total Deaths in",
+  "country.text.viewAllCountries": "View All Countries",
+  "result.500.title": "Internal Server Error",
+  "result.500.subTitle": "Sorry, there was an error while fetching the data from server. Please try reloading the page!."
 }

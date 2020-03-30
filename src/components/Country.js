@@ -17,9 +17,13 @@ import {
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { TimeSeriesLineChart } from "./charts/TimeSeriesLineChart";
+import { useTranslation } from "react-i18next";
+import * as countries from "i18n-iso-countries";
 
 function Country(props) {
   const { name } = props.match.params;
+
+  const { t, i18n } = useTranslation();
 
   const [duration, setDuration] = useState({
     cases: {
@@ -61,11 +65,11 @@ function Country(props) {
   const ShowError = () => (
     <Result
       status="500"
-      title="Internal Server Error"
-      subTitle="Sorry, there was an error while fetching the data from server. Please try reloading the page!."
+      title={t("result.500.title")}
+      subTitle={t("result.500.subTitle")}
       extra={
         <Button type="primary">
-          <Link to="/search">View All Countries</Link>
+          <Link to="/search">{t("country.text.viewAllCountries")}</Link>
         </Button>
       }
     />
@@ -124,15 +128,29 @@ function Country(props) {
       {!loading && data && data.generalStats.country && (
         <div>
           <PageHeader
-            title={data.generalStats.country}
+            title={countries.getName(
+              data.generalStats.countryInfo.iso2,
+              i18n.language
+            )}
             avatar={{
               src: data.generalStats.countryInfo.flag,
               shape: "square"
             }}
-            subTitle={`View Details of Coronavirus Spread in ${data.generalStats.country}`}
+            subTitle={
+              t("site.direction") === "ltr"
+                ? `${t("country.header.subtitle")} ${countries.getName(
+                    data.generalStats.countryInfo.iso2,
+                    i18n.language
+                  )}`
+                : `${countries.getName(
+                    data.generalStats.countryInfo.iso2,
+                    i18n.language
+                  )} ${t("country.header.subtitle")}`
+            }
             tags={[
               <Tag color="red" key="totalCasesTag">
-                Total Cases: {data.generalStats.cases}
+                {t("country.text.totalCases")}{" "}
+                <span className="number">{data.generalStats.cases}</span>
               </Tag>
             ]}
           />
@@ -141,7 +159,7 @@ function Country(props) {
             <Col xs={24} sm={12} md={6}>
               <Card className="shadow">
                 <Statistic
-                  title="Today's Cases"
+                  title={t("country.text.todayCases")}
                   value={data.generalStats.todayCases}
                   precision={0}
                 />
@@ -150,7 +168,7 @@ function Country(props) {
             <Col xs={24} sm={12} md={6}>
               <Card className="shadow">
                 <Statistic
-                  title="Today's Deaths"
+                  title={t("country.text.todayDeaths")}
                   value={data.generalStats.todayDeaths}
                   precision={0}
                 />
@@ -159,7 +177,7 @@ function Country(props) {
             <Col xs={24} sm={12} md={6}>
               <Card className="shadow">
                 <Statistic
-                  title="Critical Cases"
+                  title={t("country.text.criticalCases")}
                   value={data.generalStats.critical}
                   precision={0}
                   valueStyle={{ color: "#cf1322" }}
@@ -169,7 +187,7 @@ function Country(props) {
             <Col xs={24} sm={12} md={6}>
               <Card className="shadow">
                 <Statistic
-                  title="Active Cases"
+                  title={t("country.text.activeCases")}
                   value={data.generalStats.active}
                   precision={0}
                 />
@@ -178,7 +196,7 @@ function Country(props) {
             <Col xs={24} sm={12} md={6}>
               <Card className="shadow">
                 <Statistic
-                  title="Total Cases"
+                  title={t("country.text.totalCasesTitle")}
                   value={data.generalStats.cases}
                   precision={0}
                 />
@@ -187,7 +205,7 @@ function Country(props) {
             <Col xs={24} sm={12} md={6}>
               <Card className="shadow">
                 <Statistic
-                  title="Total Deaths"
+                  title={t("country.text.totalDeaths")}
                   value={data.generalStats.deaths}
                   precision={0}
                 />
@@ -196,7 +214,7 @@ function Country(props) {
             <Col xs={24} sm={12} md={6}>
               <Card className="shadow">
                 <Statistic
-                  title="Recovered Cases"
+                  title={t("country.text.recoveredCases")}
                   value={data.generalStats.recovered}
                   precision={0}
                   valueStyle={{ color: "#3f8600" }}
@@ -206,10 +224,10 @@ function Country(props) {
             <Col xs={24} sm={12} md={6}>
               <Card className="shadow">
                 <Statistic
-                  title="Deaths Per Million"
+                  title={t("country.text.deathsPerMillion")}
                   value={data.generalStats.deathsPerOneMillion}
                   precision={0}
-                  suffix="per Million"
+                  suffix={t("country.text.perMillion")}
                 />
               </Card>
             </Col>
@@ -218,11 +236,24 @@ function Country(props) {
           <Card
             title={
               <PageHeader
-                title={`Total Cases in ${data.generalStats.country}`}
+                title={
+                  t("site.direction") === "ltr"
+                    ? `${t(
+                        "country.card.title.totalCases"
+                      )} ${countries.getName(
+                        data.generalStats.countryInfo.iso2,
+                        i18n.language
+                      )}`
+                    : `${countries.getName(
+                        data.generalStats.countryInfo.iso2,
+                        i18n.language
+                      )} ${t("country.card.title.totalCases")}`
+                }
                 extra={[
                   <Tag key="duration">
                     <b>
-                      Duration: {moment(duration["cases"].from).format("LL")} -{" "}
+                      {t("country.text.duration")}{" "}
+                      {moment(duration["cases"].from).format("LL")} -{" "}
                       {moment(duration["cases"].to).format("LL")}
                     </b>
                   </Tag>
@@ -241,11 +272,24 @@ function Country(props) {
           <Card
             title={
               <PageHeader
-                title={`Total Deaths in ${data.generalStats.country}`}
+                title={
+                  t("site.direction") === "ltr"
+                    ? `${t(
+                        "country.card.title.totalDeaths"
+                      )} ${countries.getName(
+                        data.generalStats.countryInfo.iso2,
+                        i18n.language
+                      )}`
+                    : `${countries.getName(
+                        data.generalStats.countryInfo.iso2,
+                        i18n.language
+                      )} ${t("country.card.title.totalDeaths")}`
+                }
                 extra={[
                   <Tag key="duration">
                     <b>
-                      Duration: {moment(duration["deaths"].from).format("LL")} -{" "}
+                      {t("country.text.duration")}{" "}
+                      {moment(duration["deaths"].from).format("LL")} -{" "}
                       {moment(duration["deaths"].to).format("LL")}
                     </b>
                   </Tag>

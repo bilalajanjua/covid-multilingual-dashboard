@@ -1,0 +1,24 @@
+/* Stylesheet for Urdu Translated Site */
+@import url("https://fonts.googleapis.com/css2?family=Amiri&display=swap");
+
+* {
+  font-family: "Amiri", serif !important;
+}
+
+.ant-page-header-heading-sub-title {
+  font-size: large;
+  color: grey;
+}
+
+.number,
+.ant-statistic-content-value-int {
+  font-family: Poppins !important;
+}
+
+.ant-tag {
+  font-size: 14px !important;
+}
+
+.ant-statistic-title {
+  font-size: large;
+}

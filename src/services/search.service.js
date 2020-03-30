@@ -26,6 +26,7 @@ export const GET_COUNTRY_STATS = gql`
       country
       countryInfo {
         flag
+        iso2
       }
       cases
       todayCases
