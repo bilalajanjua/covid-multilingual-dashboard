@@ -41,5 +41,8 @@
   "searchByCountry.text.casesPerMillion": "متاثرین فی ملین",
   "searchByCountry.text.deathsPerMillion": "اموات فی ملین",
   "searchByCountry.text.helper.1": "ہم نیچے <b>COVID19</b> کی وجہ سے",
-  "searchByCountry.text.helper.2": "پر مبنی <b>ٹاپ 24 ممالک <b/>دکھا رہے ہیں۔ نیچے سے کسی ملک کا انتخاب کریں یا تفصیلات دیکھنے کے لئے اوپر تلاش کریں۔"
+  "searchByCountry.text.helper.2": "پر مبنی <b>ٹاپ 24 ممالک <b/>دکھا رہے ہیں۔ نیچے سے کسی ملک کا انتخاب کریں یا تفصیلات دیکھنے کے لئے اوپر تلاش کریں۔",
+  "map.label.selectCriteria": "انتخاب کریں:",
+  "map.controlPanel.title": "کورونا وائرس",
+  "map.controlPanel.subtitle": "نقشہ پر کورونا وائرس کا دنیا بھر میں پھیلاؤ دیکھیں"
 }

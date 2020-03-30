@@ -112,3 +112,12 @@ body * {
   margin-left: 5px;
   margin-right: 5px;
 }
+
+/* Map Styles */
+.control-panel {
+  margin: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  width: 200px;
+  position: absolute;
+}
