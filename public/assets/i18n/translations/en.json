@@ -1,5 +1,6 @@
 {
   "site.direction": "ltr",
+  "site.font": "Poppins",
   "site.title": "Covid19 Dashboard",
   "menu.dashboard": "Dashboard",
   "menu.searchByCountry": "Search By Country",
@@ -20,5 +21,8 @@
   "country.card.title.totalDeaths": "Total Deaths in",
   "country.text.viewAllCountries": "View All Countries",
   "result.500.title": "Internal Server Error",
-  "result.500.subTitle": "Sorry, there was an error while fetching the data from server. Please try reloading the page!."
+  "result.500.subTitle": "Sorry, there was an error while fetching the data from server. Please try reloading the page!.",
+  "chart.series.title.recorded": "Recorded",
+  "chart.type.title.cases": "Cases",
+  "chart.type.title.deaths": "Deaths"
 }
