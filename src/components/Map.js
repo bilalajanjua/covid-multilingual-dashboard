@@ -24,6 +24,7 @@ import {
 import { GET_COUNTRIES_DATA } from "../services/map.service";
 
 import "mapbox-gl/dist/mapbox-gl.css";
+import { Show500Error } from "./shared/500Error";
 
 const { Option } = Select;
 
@@ -100,122 +101,137 @@ function Map(props) {
   return (
     <MainLayout {...props}>
       <div ref={containerRef}>
-        <PageHeader
-          title={t("map.controlPanel.title")}
-          subTitle={t("map.controlPanel.subtitle")}
-          avatar={{ src: "/assets/icons/world.svg" }}
-        />
-        <Divider />
-        <Spin spinning={loading}>
-          <ReactMapGL
-            {...viewport}
-            mapboxApiAccessToken={MAP_TOKEN}
-            onViewportChange={setViewport}
-            mapStyle={MAP_STYLE}
-          >
-            {data && (
-              <Source
-                type="geojson"
-                data={mapFeatures}
-                cluster={true}
-                clusterMaxZoom={14}
-                clusterRadius={40}
+        {!error && (
+          <React.Fragment>
+            <PageHeader
+              title={t("map.controlPanel.title")}
+              subTitle={t("map.controlPanel.subtitle")}
+              avatar={{ src: "/assets/icons/world.svg" }}
+            />
+            <Divider />
+            <Spin spinning={loading}>
+              <ReactMapGL
+                {...viewport}
+                mapboxApiAccessToken={MAP_TOKEN}
+                onViewportChange={setViewport}
+                mapStyle={MAP_STYLE}
               >
-                <Layer {...clusterLayer} />
-                <Layer
-                  {...clusterCountLayer(t(selectedCriteria.split(",")[0]))}
-                />
-                <Layer {...unclusteredPointLayer} />
-              </Source>
-            )}
-            <div
-              style={
-                t("site.direction") === "ltr"
-                  ? {
-                      right: 10,
-                      position: "absolute",
-                      direction: "ltr",
-                      top: 10
-                    }
-                  : {
-                      left: 10,
-                      direction: "rtl",
-                      position: "absolute",
-                      top: 10
-                    }
-              }
-            >
-              <NavigationControl />
-              <FullscreenControl container={document.querySelector("body")} />
-              <GeolocateControl
-                positionOptions={{ enableHighAccuracy: true }}
-                trackUserLocation={true}
-              />
-            </div>
-            <div
-              className="control-panel"
-              style={
-                t("site.direction") === "ltr"
-                  ? { left: 0, direction: "ltr" }
-                  : { right: 0, direction: "rtl" }
-              }
-            >
-              <label>
-                <b>{t("map.label.selectCriteria")}</b>
-              </label>
-              <br />
-              <Select
-                showSearch
-                style={{ width: "100%" }}
-                optionFilterProp="children"
-                onSelect={onCriteriaSelection}
-                filterOption={(input, option) =>
-                  t(option.value.split(",")[0])
-                    .toLowerCase()
-                    .indexOf(input.toLowerCase()) >= 0
-                }
-                defaultValue={selectedCriteria}
-              >
-                <Option value={"searchByCountry.text.todayCases,todayCases"}>
-                  {t("searchByCountry.text.todayCases")}
-                </Option>
-                <Option value={"searchByCountry.text.todayDeaths,todayDeaths"}>
-                  {t("searchByCountry.text.todayDeaths")}
-                </Option>
-                <Option value={"searchByCountry.text.totalCases,cases"}>
-                  {t("searchByCountry.text.totalCases")}
-                </Option>
-                <Option value={"searchByCountry.text.totalDeaths,deaths"}>
-                  {t("searchByCountry.text.totalDeaths")}
-                </Option>
-                <Option value={"searchByCountry.text.recoveredCases,recovered"}>
-                  {t("searchByCountry.text.recoveredCases")}
-                </Option>
-                <Option value={"searchByCountry.text.activeCases,active"}>
-                  {t("searchByCountry.text.activeCases")}
-                </Option>
-                <Option value={"searchByCountry.text.criticalCases,critical"}>
-                  {t("searchByCountry.text.criticalCases")}
-                </Option>
-                <Option
-                  value={
-                    "searchByCountry.text.casesPerMillion,casesPerOneMillion"
+                {data && (
+                  <Source
+                    type="geojson"
+                    data={mapFeatures}
+                    cluster={true}
+                    clusterMaxZoom={14}
+                    clusterRadius={40}
+                  >
+                    <Layer {...clusterLayer} />
+                    <Layer
+                      {...clusterCountLayer(t(selectedCriteria.split(",")[0]))}
+                    />
+                    <Layer {...unclusteredPointLayer} />
+                  </Source>
+                )}
+                <div
+                  style={
+                    t("site.direction") === "ltr"
+                      ? {
+                          right: 10,
+                          position: "absolute",
+                          direction: "ltr",
+                          top: 10
+                        }
+                      : {
+                          left: 10,
+                          direction: "rtl",
+                          position: "absolute",
+                          top: 10
+                        }
                   }
                 >
-                  {t("searchByCountry.text.casesPerMillion")}
-                </Option>
-                <Option
-                  value={
-                    "searchByCountry.text.deathsPerMillion,deathsPerOneMillion"
+                  <NavigationControl />
+                  <FullscreenControl
+                    container={document.querySelector("body")}
+                  />
+                  <GeolocateControl
+                    positionOptions={{ enableHighAccuracy: true }}
+                    trackUserLocation={true}
+                  />
+                </div>
+                <div
+                  className="control-panel"
+                  style={
+                    t("site.direction") === "ltr"
+                      ? { left: 0, direction: "ltr" }
+                      : { right: 0, direction: "rtl" }
                   }
                 >
-                  {t("searchByCountry.text.deathsPerMillion")}
-                </Option>
-              </Select>
-            </div>
-          </ReactMapGL>
-        </Spin>
+                  <label>
+                    <b>{t("map.label.selectCriteria")}</b>
+                  </label>
+                  <br />
+                  <Select
+                    showSearch
+                    style={{ width: "100%" }}
+                    optionFilterProp="children"
+                    onSelect={onCriteriaSelection}
+                    filterOption={(input, option) =>
+                      t(option.value.split(",")[0])
+                        .toLowerCase()
+                        .indexOf(input.toLowerCase()) >= 0
+                    }
+                    defaultValue={selectedCriteria}
+                  >
+                    <Option
+                      value={"searchByCountry.text.todayCases,todayCases"}
+                    >
+                      {t("searchByCountry.text.todayCases")}
+                    </Option>
+                    <Option
+                      value={"searchByCountry.text.todayDeaths,todayDeaths"}
+                    >
+                      {t("searchByCountry.text.todayDeaths")}
+                    </Option>
+                    <Option value={"searchByCountry.text.totalCases,cases"}>
+                      {t("searchByCountry.text.totalCases")}
+                    </Option>
+                    <Option value={"searchByCountry.text.totalDeaths,deaths"}>
+                      {t("searchByCountry.text.totalDeaths")}
+                    </Option>
+                    <Option
+                      value={"searchByCountry.text.recoveredCases,recovered"}
+                    >
+                      {t("searchByCountry.text.recoveredCases")}
+                    </Option>
+                    <Option value={"searchByCountry.text.activeCases,active"}>
+                      {t("searchByCountry.text.activeCases")}
+                    </Option>
+                    <Option
+                      value={"searchByCountry.text.criticalCases,critical"}
+                    >
+                      {t("searchByCountry.text.criticalCases")}
+                    </Option>
+                    <Option
+                      value={
+                        "searchByCountry.text.casesPerMillion,casesPerOneMillion"
+                      }
+                    >
+                      {t("searchByCountry.text.casesPerMillion")}
+                    </Option>
+                    <Option
+                      value={
+                        "searchByCountry.text.deathsPerMillion,deathsPerOneMillion"
+                      }
+                    >
+                      {t("searchByCountry.text.deathsPerMillion")}
+                    </Option>
+                  </Select>
+                </div>
+              </ReactMapGL>
+            </Spin>
+          </React.Fragment>
+        )}
       </div>
+      {!loading && error && <Show500Error />}
     </MainLayout>
   );
 }
