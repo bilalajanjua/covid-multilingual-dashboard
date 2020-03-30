@@ -103,3 +103,12 @@ body * {
 .ant-tag {
   white-space: normal !important;
 }
+
+.ant-divider .ant-tag {
+  width: max-content;
+}
+
+.apexcharts-tooltip-marker {
+  margin-left: 5px;
+  margin-right: 5px;
+}

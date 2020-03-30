@@ -1,66 +1,111 @@
-import React from "react";
-import { ResponsiveLine } from "@nivo/line";
-import moment from "moment";
+import React, { useRef } from "react";
+import ReactApexChart from "react-apexcharts";
+import { useTranslation } from "react-i18next";
+
+import locales from "./locales";
 
 export const TimeSeriesLineChart = ({ data, height, type }) => {
+  const chartRef = useRef(null);
+  const { t, i18n } = useTranslation();
+
+  i18n.on("languageChanged", lang => {
+    if (chartRef) {
+      const chart = chartRef.current.chart;
+      chart.setLocale(lang);
+    }
+  });
+
+  const options = {
+    chart: {
+      type: "area",
+      stacked: false,
+      height: 350,
+      zoom: {
+        type: "x",
+        enabled: true,
+        autoScaleYaxis: true
+      },
+      toolbar: {
+        autoSelected: "zoom",
+        tools: {
+          download: false,
+          selection: true,
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+          reset: true
+        }
+      },
+      background: "#001529",
+      defaultLocale: i18n.language,
+      locales: locales
+    },
+    theme: {
+      mode: "dark",
+      palette: "palette7"
+    },
+    dataLabels: {
+      enabled: false
+    },
+    markers: {
+      size: 0
+    },
+    fill: {
+      type: "gradient",
+      gradient: {
+        shadeIntensity: 1,
+        inverseColors: false,
+        opacityFrom: 0.9,
+        opacityTo: 0.3,
+        stops: [0, 90, 100]
+      }
+    },
+    yaxis: {
+      labels: {
+        formatter: function(val) {
+          return val.toFixed(0);
+        }
+      },
+      title: {
+        text: type,
+        style: {
+          fontSize: "18px",
+          fontFamily: t("site.font"),
+          fontWeight: 400,
+          cssClass: "apexcharts-yaxis-label"
+        }
+      }
+    },
+    xaxis: {
+      type: "datetime"
+    },
+    tooltip: {
+      shared: false,
+      y: {
+        formatter: function(val) {
+          return val.toFixed(0);
+        }
+      },
+      style: {
+        fontSize: "14px",
+        fontFamily: t("site.font")
+      }
+    },
+    colors: ["#f5222d"]
+  };
   return (
-    <div style={{ height, direction: "ltr" }}>
-      <ResponsiveLine
-        data={data}
-        margin={{ top: 40, right: 40, bottom: 50, left: 40 }}
-        colors={{ scheme: "nivo" }}
-        xScale={{
-          type: "time",
-          format: "%Y-%m-%d",
-          precision: "day"
-        }}
-        xFormat="time:%Y-%m-%d"
-        yScale={{
-          type: "linear",
-          stacked: true
-        }}
-        axisLeft={{
-          legend: `Total ${type}`,
-          legendOffset: 12
-        }}
-        axisBottom={{
-          format: "%b %d",
-          tickValues: "every 4 days",
-          legend: "Date",
-          legendOffset: -12,
-          tickSize: 11,
-          tickRotation: 85
-        }}
-        animate={true}
-        enableSlices={"x"}
-        pointSize={6}
-        pointBorderWidth={1}
-        pointBorderColor={{
-          from: "color",
-          modifiers: [["darker", 0.3]]
-        }}
-        useMesh={true}
-        enableSlices={false}
-        curve="natural"
-        enableArea={true}
-        tooltip={({ point }) => {
-          const { data } = point;
-          return (
-            <span
-              style={{
-                padding: "5px",
-                background: "white",
-                textAlign: "center"
-              }}
-              className="shadow"
-            >
-              <b>
-                Total {data.y} {type} recorded on {moment(data.x).format("LL")}
-              </b>
-            </span>
-          );
-        }}
-      />
-    </div>
+    <ReactApexChart
+      options={options}
+      series={[
+        {
+          name: `${t("chart.series.title.recorded")} ${type}`,
+          data: data
+        }
+      ]}
+      type="bar"
+      height={350}
+      ref={chartRef}
+    />
   );
 };

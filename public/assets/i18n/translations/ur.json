@@ -1,5 +1,6 @@
 {
   "site.direction": "rtl",
+  "site.font": "Amiri",
   "site.title": "کورونا وائرس ڈیش بورڈ",
   "menu.dashboard": "ڈیش بورڈ",
   "menu.searchByCountry": "ملک کے لحاظ سے تفصیلات دیکھیں",
@@ -20,5 +21,8 @@
   "country.card.title.totalDeaths": "میں کل اموات",
   "country.text.viewAllCountries": "میں کورونا وائرس پھیلنے کی تفصیلات دیکھیں",
   "result.500.title": "اندرونی سرور کی خرابی",
-  "result.500.subTitle": "معذرت ، سرور سے ڈیٹا بازیافت کرتے وقت ایک خامی تھی۔ براہ کرم پیج کو دوبارہ لوڈ کرنے کی کوشش کریں!"
+  "result.500.subTitle": "معذرت ، سرور سے ڈیٹا بازیافت کرتے وقت ایک خامی تھی۔ براہ کرم پیج کو دوبارہ لوڈ کرنے کی کوشش کریں!",
+  "chart.series.title.recorded": "درج",
+  "chart.type.title.cases": "متاثرین",
+  "chart.type.title.deaths": "اموات"
 }

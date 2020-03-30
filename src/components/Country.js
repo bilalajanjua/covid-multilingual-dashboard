@@ -79,19 +79,11 @@ function Country(props) {
     const timeline = data.historicalStats.timeline[type];
     const timelineKeys = Object.keys(timeline);
     const chartData = timelineKeys.map(date => {
-      return {
-        x: moment(new Date(date)).format("YYYY-MM-DD"),
-        y: timeline[date]
-      };
+      return [new Date(date).getTime(), timeline[date]];
     });
 
     return {
-      data: [
-        {
-          id: `${type}-data`,
-          data: chartData
-        }
-      ]
+      data: chartData
     };
   };
 
@@ -261,11 +253,12 @@ function Country(props) {
               />
             }
             className="shadow"
+            style={{ direction: "ltr" }}
           >
             <TimeSeriesLineChart
               {...GetChartProps("cases")}
               height={500}
-              type="Cases"
+              type={t("chart.type.title.cases")}
             />
           </Card>
           <Divider />
@@ -297,11 +290,12 @@ function Country(props) {
               />
             }
             className="shadow"
+            style={{ direction: "ltr" }}
           >
             <TimeSeriesLineChart
               {...GetChartProps("deaths")}
               height={500}
-              type="Deaths"
+              type={t("chart.type.title.deaths")}
             />
           </Card>
         </div>
