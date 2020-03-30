@@ -1,7 +1,6 @@
 import moment from "moment";
 import React, { useEffect } from "react";
 import MainLayout from "./shared/MainLayout";
-import { useTranslation } from "react-i18next";
 import { useQuery } from "@apollo/react-hooks";
 import Highlighter from "react-highlight-words";
 import { LineCharts } from "./charts/Linecharts";
@@ -23,7 +22,6 @@ import {
   Divider
 } from "antd";
 
-const { t, i18n } = useTranslation();
 
 const Dashboard = props => {
   const { loading, data, error } = useQuery(getAllStats);
@@ -269,7 +267,11 @@ const Dashboard = props => {
 
       {loading && (
         <div style={{ textAlign: "center" }}>
-          <Spin />
+          <Row gutter={[16, 16]}>
+          <Col span={24}>
+            <Card loading/>
+          </Col>
+        </Row>
         </div>
       )}
       {!loading && data && (

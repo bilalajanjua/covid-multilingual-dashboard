@@ -10,6 +10,10 @@ export const LineCharts = ({ data }) => (
         curve: "straight",
         dashArray: [0, 0, 3]
       },
+      theme: {
+        mode: "light",
+        palette: "palette4"
+      },
       chart: {
         type: "line",
         stacked: false,
