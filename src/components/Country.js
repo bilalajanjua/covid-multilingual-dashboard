@@ -156,7 +156,7 @@ function Country(props) {
           />
           <Divider />
           <Row gutter={16} style={{ marginTop: "20px" }}>
-            <Col xs={24} sm={12} md={6}>
+            <Col xs={12} sm={8} md={6}>
               <Card className="shadow">
                 <Statistic
                   title={t("country.text.todayCases")}
@@ -165,7 +165,7 @@ function Country(props) {
                 />
               </Card>
             </Col>
-            <Col xs={24} sm={12} md={6}>
+            <Col xs={12} sm={8} md={6}>
               <Card className="shadow">
                 <Statistic
                   title={t("country.text.todayDeaths")}
@@ -174,7 +174,7 @@ function Country(props) {
                 />
               </Card>
             </Col>
-            <Col xs={24} sm={12} md={6}>
+            <Col xs={12} sm={8} md={6}>
               <Card className="shadow">
                 <Statistic
                   title={t("country.text.criticalCases")}
@@ -184,7 +184,7 @@ function Country(props) {
                 />
               </Card>
             </Col>
-            <Col xs={24} sm={12} md={6}>
+            <Col xs={12} sm={8} md={6}>
               <Card className="shadow">
                 <Statistic
                   title={t("country.text.activeCases")}
@@ -193,7 +193,7 @@ function Country(props) {
                 />
               </Card>
             </Col>
-            <Col xs={24} sm={12} md={6}>
+            <Col xs={12} sm={8} md={6}>
               <Card className="shadow">
                 <Statistic
                   title={t("country.text.totalCasesTitle")}
@@ -202,7 +202,7 @@ function Country(props) {
                 />
               </Card>
             </Col>
-            <Col xs={24} sm={12} md={6}>
+            <Col xs={12} sm={8} md={6}>
               <Card className="shadow">
                 <Statistic
                   title={t("country.text.totalDeaths")}
@@ -211,7 +211,7 @@ function Country(props) {
                 />
               </Card>
             </Col>
-            <Col xs={24} sm={12} md={6}>
+            <Col xs={12} sm={8} md={6}>
               <Card className="shadow">
                 <Statistic
                   title={t("country.text.recoveredCases")}
@@ -221,7 +221,7 @@ function Country(props) {
                 />
               </Card>
             </Col>
-            <Col xs={24} sm={12} md={6}>
+            <Col xs={12} sm={8} md={6}>
               <Card className="shadow">
                 <Statistic
                   title={t("country.text.deathsPerMillion")}
