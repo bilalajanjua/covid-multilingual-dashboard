@@ -6,6 +6,7 @@ export const GET_COUNTRIES_LIST = gql`
       country
       countryInfo {
         flag
+        iso2
       }
       todayCases
       cases

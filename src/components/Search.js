@@ -14,6 +14,8 @@ import {
 } from "antd";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_COUNTRIES_LIST } from "../services/search.service";
+import { useTranslation } from "react-i18next";
+import * as countries from "i18n-iso-countries";
 
 const { Option } = Select;
 
@@ -24,7 +26,11 @@ const gridStyle = {
 };
 
 function Search(props) {
-  const [selectedSortTitle, setSortTitle] = useState("Today's Cases");
+  const { t, i18n } = useTranslation();
+
+  const [selectedSortTitle, setSortTitle] = useState(
+    "searchByCountry.text.todayCases"
+  );
 
   const [selectedSortValue, setSortValue] = useState("todayCases");
 
@@ -48,14 +54,15 @@ function Search(props) {
   return (
     <MainLayout {...props}>
       <PageHeader
-        title="Search By Country"
-        subTitle="Filter the Reports of Coronavirus Spread by Country"
+        title={t("searchByCountry.text.title")}
+        subTitle={t("searchByCountry.text.subtitle")}
         avatar={{ src: "/assets/icons/world.svg" }}
         tags={
           data
             ? [
                 <Tag key="totalCountriesTag" color={"blue"}>
-                  Total Countries: {data.countries.length}
+                  {t("searchByCountry.text.totalCountries")}{" "}
+                  <span className="number">{data.countries.length}</span>
                 </Tag>
               ]
             : null
@@ -64,7 +71,7 @@ function Search(props) {
       <Divider />
       {loading && (
         <div style={{ textAlign: "center" }}>
-          <Spin spinning tip="Loading Countries Data...">
+          <Spin spinning>
             <Card style={{ marginTop: "20px" }} loading></Card>
             <Card style={{ marginTop: "20px" }} loading></Card>
             <Card style={{ marginTop: "20px" }} loading></Card>
@@ -76,12 +83,12 @@ function Search(props) {
           <Row>
             <Col xs={24} sm={12} md={16}>
               <label>
-                <b>Search Country:</b>
+                <b>{t("searchByCountry.label.searchCountry")}</b>
               </label>
               <Select
                 showSearch
                 style={{ width: "100%" }}
-                placeholder="Select Country..."
+                placeholder={t("searchByCountry.label.selectCountry")}
                 optionFilterProp="children"
                 onSelect={onCountrySelection}
                 filterOption={(input, option) =>
@@ -91,9 +98,11 @@ function Search(props) {
                 {data.countries.map((country, index) => {
                   const name = country.country;
                   const flag = country.countryInfo.flag;
+                  const iso2 = country.countryInfo.iso2;
                   return (
                     <Option value={name} key={name}>
-                      <img src={flag} alt={`${name}-icon`} width={18} /> {name}
+                      <img src={flag} alt={`${name}-icon`} width={18} />{" "}
+                      {countries.getName(iso2, i18n.language)}
                     </Option>
                   );
                 })}
@@ -101,7 +110,7 @@ function Search(props) {
             </Col>
             <Col xs={24} sm={12} md={8}>
               <label>
-                <b>Sort Countries:</b>
+                <b>{t("searchByCountry.label.sortCountries")}</b>
               </label>
               <Select
                 showSearch
@@ -110,47 +119,68 @@ function Search(props) {
                 optionFilterProp="children"
                 onSelect={onSortSelect}
                 filterOption={(input, option) =>
-                  option.value
-                    .split(",")[0]
+                  t(option.value.split(",")[0])
                     .toLowerCase()
                     .indexOf(input.toLowerCase()) >= 0
                 }
                 defaultValue={`${selectedSortTitle},${selectedSortValue}`}
               >
-                <Option value={"Today's Cases,todayCases"}>
-                  Today's Cases
+                <Option value={"searchByCountry.text.todayCases,todayCases"}>
+                  {t("searchByCountry.text.todayCases")}
                 </Option>
-                <Option value={"Today's Deaths,todayDeaths"}>
-                  Today's Deaths
+                <Option value={"searchByCountry.text.todayDeaths,todayDeaths"}>
+                  {t("searchByCountry.text.todayDeaths")}
                 </Option>
-                <Option value={"Total Cases,cases"}>Total Cases</Option>
-                <Option value={"Total Deaths,deaths"}>Total Deaths</Option>
-                <Option value={"Recovered Cases,recovered"}>
-                  Recovered Cases
+                <Option value={"searchByCountry.text.totalCases,cases"}>
+                  {t("searchByCountry.text.totalCases")}
                 </Option>
-                <Option value={"Active Cases,active"}>Active Cases</Option>
-                <Option value={"Critical Cases,critical"}>
-                  Critical Cases
+                <Option value={"searchByCountry.text.totalDeaths,deaths"}>
+                  {t("searchByCountry.text.totalDeaths")}
                 </Option>
-                <Option value={"Cases Per One Million,casesPerOneMillion"}>
-                  Cases Per One Million
+                <Option value={"searchByCountry.text.recoveredCases,recovered"}>
+                  {t("searchByCountry.text.recoveredCases")}
                 </Option>
-                <Option value={"Deaths Per One Million,deathsPerOneMillion"}>
-                  Deaths Per One Million
+                <Option value={"searchByCountry.text.activeCases,active"}>
+                  {t("searchByCountry.text.activeCases")}
+                </Option>
+                <Option value={"searchByCountry.text.criticalCases,critical"}>
+                  {t("searchByCountry.text.criticalCases")}
+                </Option>
+                <Option
+                  value={
+                    "searchByCountry.text.casesPerMillion,casesPerOneMillion"
+                  }
+                >
+                  {t("searchByCountry.text.casesPerMillion")}
+                </Option>
+                <Option
+                  value={
+                    "searchByCountry.text.deathsPerMillion,deathsPerOneMillion"
+                  }
+                >
+                  {t("searchByCountry.text.deathsPerMillion")}
                 </Option>
               </Select>
             </Col>
           </Row>
           <Card style={{ marginTop: "20px" }}>
-            <p style={{ textAlign: "center" }}>
-              Showing <b>Top 24 Countries</b> based on the number of{" "}
-              <b>{selectedSortTitle}</b> due to <b>COVID19</b>. Select a country
-              from below or search above to view the details.
+            <p className="card-helper" style={{ textAlign: "center" }}>
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: t("searchByCountry.text.helper.1")
+                }}
+              ></span>{" "}
+              <b>{t(selectedSortTitle)}</b>{" "}
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: t("searchByCountry.text.helper.2")
+                }}
+              ></span>
             </p>
             <Divider />
             <Row>
               {data.countries.slice(0, 24).map(country => (
-                <Col xs={24} sm={12} md={6} xl={4} key={country.country}>
+                <Col xs={12} sm={12} md={6} xl={4} key={country.country}>
                   <Card.Grid
                     style={gridStyle}
                     onClick={() => onCountrySelection(country.country)}
@@ -160,9 +190,17 @@ function Search(props) {
                       size={18}
                       src={country.countryInfo.flag}
                     />
-                    <h2>{country.country}</h2>
+                    <h2>
+                      {countries.getName(
+                        country.countryInfo.iso2,
+                        i18n.language
+                      )}
+                    </h2>
                     <Tag color={"blue"}>
-                      {selectedSortTitle}: {country[selectedSortValue]}
+                      {t(selectedSortTitle)}:{" "}
+                      <span className="number">
+                        {country[selectedSortValue]}
+                      </span>
                     </Tag>
                   </Card.Grid>
                 </Col>

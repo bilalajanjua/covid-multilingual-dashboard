@@ -22,3 +22,13 @@
 .ant-statistic-title {
   font-size: large;
 }
+
+.ant-select-item-option-content,
+.ant-select-selection-item {
+  font-size: 16px;
+  font-weight: 600;
+}
+.card-helper {
+  font-size: 18px;
+  font-weight: 600;
+}

@@ -9,7 +9,7 @@ export const TimeSeriesLineChart = ({ data, height, type }) => {
   const { t, i18n } = useTranslation();
 
   i18n.on("languageChanged", lang => {
-    if (chartRef) {
+    if (chartRef.current) {
       const chart = chartRef.current.chart;
       chart.setLocale(lang);
     }
