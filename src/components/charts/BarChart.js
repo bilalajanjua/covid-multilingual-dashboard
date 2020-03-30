@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import locales from "./locales";
 
-export const TimeSeriesLineChart = ({ data, height, type }) => {
+export const BarChart = ({ data, height, type }) => {
   const chartRef = useRef(null);
   const { t, i18n } = useTranslation();
 
@@ -37,29 +37,19 @@ export const TimeSeriesLineChart = ({ data, height, type }) => {
           reset: true
         }
       },
-      background: "#001529",
+      // background: "#001529",
       defaultLocale: i18n.language,
       locales: locales
     },
     theme: {
-      mode: "dark",
-      palette: "palette7"
+      mode: "light",
+      palette: "palette4"
     },
     dataLabels: {
       enabled: false
     },
     markers: {
       size: 0
-    },
-    fill: {
-      type: "gradient",
-      gradient: {
-        shadeIntensity: 1,
-        inverseColors: false,
-        opacityFrom: 0.9,
-        opacityTo: 0.3,
-        stops: [0, 90, 100]
-      }
     },
     yaxis: {
       labels: {
@@ -92,15 +82,23 @@ export const TimeSeriesLineChart = ({ data, height, type }) => {
         fontFamily: t("site.font")
       }
     },
-    colors: ["#f5222d"]
+    colors: ["#5ba1c9", "#f52225"]
   };
   return (
     <ReactApexChart
       options={options}
       series={[
         {
-          name: `${t("chart.series.title.recorded")} ${type}`,
-          data: data
+          name: `${t("chart.series.title.recorded")} ${t(
+            "chart.type.title.cases"
+          )}`,
+          data: data.cases
+        },
+        {
+          name: `${t("chart.series.title.recorded")} ${t(
+            "chart.type.title.deaths"
+          )}`,
+          data: data.deaths
         }
       ]}
       type="bar"

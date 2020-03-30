@@ -32,3 +32,7 @@
   font-size: 18px;
   font-weight: 600;
 }
+
+.apexcharts-tooltip {
+  direction: rtl;
+}

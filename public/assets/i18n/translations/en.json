@@ -19,6 +19,7 @@
   "country.text.duration": "Duration:",
   "country.card.title.totalCases": "Total Cases in",
   "country.card.title.totalDeaths": "Total Deaths in",
+  "country.card.title.totalCasesAndDeaths": "Total Cases & Deaths in",
   "country.text.viewAllCountries": "View All Countries",
   "result.500.title": "Internal Server Error",
   "result.500.subTitle": "Sorry, there was an error while fetching the data from server. Please try reloading the page!.",

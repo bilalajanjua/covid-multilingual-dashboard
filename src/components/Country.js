@@ -16,9 +16,10 @@ import {
 } from "antd";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { TimeSeriesLineChart } from "./charts/TimeSeriesLineChart";
+import { BarChart } from "./charts/BarChart";
 import { useTranslation } from "react-i18next";
 import * as countries from "i18n-iso-countries";
+import { Show500Error } from "./shared/500Error";
 
 function Country(props) {
   const { name } = props.match.params;
@@ -62,28 +63,21 @@ function Country(props) {
     }
   }, [data]);
 
-  const ShowError = () => (
-    <Result
-      status="500"
-      title={t("result.500.title")}
-      subTitle={t("result.500.subTitle")}
-      extra={
-        <Button type="primary">
-          <Link to="/search">{t("country.text.viewAllCountries")}</Link>
-        </Button>
-      }
-    />
-  );
+  const GetChartProps = () => {
+    const casesTimeline = data.historicalStats.timeline["cases"];
+    const casesTimelineKeys = Object.keys(casesTimeline);
+    const cases = casesTimelineKeys.map(date => {
+      return [new Date(date).getTime(), casesTimeline[date]];
+    });
 
-  const GetChartProps = type => {
-    const timeline = data.historicalStats.timeline[type];
-    const timelineKeys = Object.keys(timeline);
-    const chartData = timelineKeys.map(date => {
-      return [new Date(date).getTime(), timeline[date]];
+    const deathsTimeline = data.historicalStats.timeline["deaths"];
+    const deathsTimelineKeys = Object.keys(deathsTimeline);
+    const deaths = deathsTimelineKeys.map(date => {
+      return [new Date(date).getTime(), deathsTimeline[date]];
     });
 
     return {
-      data: chartData
+      data: { cases, deaths }
     };
   };
 
@@ -231,7 +225,7 @@ function Country(props) {
                 title={
                   t("site.direction") === "ltr"
                     ? `${t(
-                        "country.card.title.totalCases"
+                        "country.card.title.totalCasesAndDeaths"
                       )} ${countries.getName(
                         data.generalStats.countryInfo.iso2,
                         i18n.language
@@ -239,7 +233,7 @@ function Country(props) {
                     : `${countries.getName(
                         data.generalStats.countryInfo.iso2,
                         i18n.language
-                      )} ${t("country.card.title.totalCases")}`
+                      )} ${t("country.card.title.totalCasesAndDeaths")}`
                 }
                 extra={[
                   <Tag key="duration">
@@ -255,53 +249,12 @@ function Country(props) {
             className="shadow"
             style={{ direction: "ltr" }}
           >
-            <TimeSeriesLineChart
-              {...GetChartProps("cases")}
-              height={500}
-              type={t("chart.type.title.cases")}
-            />
-          </Card>
-          <Divider />
-          <Card
-            title={
-              <PageHeader
-                title={
-                  t("site.direction") === "ltr"
-                    ? `${t(
-                        "country.card.title.totalDeaths"
-                      )} ${countries.getName(
-                        data.generalStats.countryInfo.iso2,
-                        i18n.language
-                      )}`
-                    : `${countries.getName(
-                        data.generalStats.countryInfo.iso2,
-                        i18n.language
-                      )} ${t("country.card.title.totalDeaths")}`
-                }
-                extra={[
-                  <Tag key="duration">
-                    <b>
-                      {t("country.text.duration")}{" "}
-                      {moment(duration["deaths"].from).format("LL")} -{" "}
-                      {moment(duration["deaths"].to).format("LL")}
-                    </b>
-                  </Tag>
-                ]}
-              />
-            }
-            className="shadow"
-            style={{ direction: "ltr" }}
-          >
-            <TimeSeriesLineChart
-              {...GetChartProps("deaths")}
-              height={500}
-              type={t("chart.type.title.deaths")}
-            />
+            <BarChart {...GetChartProps()} height={500} />
           </Card>
         </div>
       )}
-      {!loading && data && !data.generalStats.country && ShowError()}
-      {!loading && error && ShowError()}
+      {!loading && data && !data.generalStats.country && <Show500Error />}
+      {!loading && error && <Show500Error />}
     </MainLayout>
   );
 }
