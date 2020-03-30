@@ -233,7 +233,7 @@ function Country(props) {
                     : `${countries.getName(
                         data.generalStats.countryInfo.iso2,
                         i18n.language
-                      )} ${t("country.card.title.totalCases")}`
+                      )} ${t("country.card.title.totalCasesAndDeaths")}`
                 }
                 extra={[
                   <Tag key="duration">
