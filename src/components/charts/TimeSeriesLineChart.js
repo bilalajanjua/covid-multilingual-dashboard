@@ -4,7 +4,7 @@ import moment from "moment";
 
 export const TimeSeriesLineChart = ({ data, height, type }) => {
   return (
-    <div style={{ height }}>
+    <div style={{ height, direction: "ltr" }}>
       <ResponsiveLine
         data={data}
         margin={{ top: 40, right: 40, bottom: 50, left: 40 }}
