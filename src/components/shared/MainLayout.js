@@ -1,9 +1,11 @@
 import React from "react";
-import { Layout, Menu, Divider, Button, Select } from "antd";
+import { Layout, Menu, Divider, Button, Select, Tag } from "antd";
 import { supportedLanguages } from "../../utils/supportedLanguages";
 import { useTranslation } from "react-i18next";
 import Helmet from "react-helmet";
 import moment from "moment";
+import { useQuery } from "react-apollo";
+import { GET_LAST_UPDATED } from "../../services/main.service";
 
 const { Header, Footer, Content } = Layout;
 
@@ -13,6 +15,8 @@ function MainLayout(props) {
   const pathname = props.match.path;
 
   const { t, i18n } = useTranslation();
+
+  const { loading, data } = useQuery(GET_LAST_UPDATED);
 
   const onMenuSelect = ({ key }) => {
     props.history.push(key);
@@ -68,11 +72,14 @@ function MainLayout(props) {
               <Menu.Item key="/map">{t("menu.map")}</Menu.Item>
             </Menu>
           </div>
-          <div
-          // className="d-hidden"
-          >
-            {ChangeLanguageUI()}
-          </div>
+          {!loading && data ? (
+            <div>
+              <Tag color="blue">
+                Last Updated: {moment(data.all.updated).format("LLL")}
+              </Tag>
+            </div>
+          ) : null}
+          <div>{ChangeLanguageUI()}</div>
         </Header>
         <Content id="site-main-content">
           <div className="site-layout-content">{props.children}</div>

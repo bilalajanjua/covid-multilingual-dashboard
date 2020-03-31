@@ -22,7 +22,6 @@ import {
   Divider
 } from "antd";
 
-
 const Dashboard = props => {
   const { loading, data, error } = useQuery(getAllStats);
 
@@ -206,14 +205,6 @@ const Dashboard = props => {
       <PageHeader
         title={"Covid19 Multilingual Dashboard"}
         subTitle={"Daily Updated Corona Virus Statistics"}
-        extra={
-          !loading &&
-          data && (
-            <Tag color="green">
-              Updated: {moment(data.all.updated).format("DD MMMM YYYY hh:mm a")}
-            </Tag>
-          )
-        }
       />
 
       <Row gutter={[16, 16]}>
@@ -268,10 +259,10 @@ const Dashboard = props => {
       {loading && (
         <div style={{ textAlign: "center" }}>
           <Row gutter={[16, 16]}>
-          <Col span={24}>
-            <Card loading/>
-          </Col>
-        </Row>
+            <Col span={24}>
+              <Card loading />
+            </Col>
+          </Row>
         </div>
       )}
       {!loading && data && (
