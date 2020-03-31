@@ -45,5 +45,7 @@
   "searchByCountry.text.helper.2": "due to <b>COVID19</b>. Select a country from below or search above to view the details.",
   "map.label.selectCriteria": "Select Criteria:",
   "map.controlPanel.title": "Coronavirus Spread",
-  "map.controlPanel.subtitle": "View Coronavirus Worldwide Spread on Map"
+  "map.controlPanel.subtitle": "View Coronavirus Worldwide Spread on Map",
+  "dashboard.card.title.coronaConfirmedCases&Deaths": "Corona Confirmed Cases & Deaths",
+  "dashboard.card.title.table": "Latest Worlwide Status of Coronavirus"
 }

@@ -45,5 +45,7 @@
   "searchByCountry.text.helper.2": "پر مبنی <b>ٹاپ 24 ممالک <b/>دکھا رہے ہیں۔ نیچے سے کسی ملک کا انتخاب کریں یا تفصیلات دیکھنے کے لئے اوپر تلاش کریں۔",
   "map.label.selectCriteria": "انتخاب کریں:",
   "map.controlPanel.title": "کورونا وائرس",
-  "map.controlPanel.subtitle": "نقشہ پر کورونا وائرس کا دنیا بھر میں پھیلاؤ دیکھیں"
+  "map.controlPanel.subtitle": "نقشہ پر کورونا وائرس کا دنیا بھر میں پھیلاؤ دیکھیں",
+  "dashboard.card.title.coronaConfirmedCases&Deaths": "تصدیق شدہ متاثرین اور کورونیوائرس کی وجہ سے اموات",
+  "dashboard.card.title.table": "کورونا وائرس کا دنیا بھر میں پھیلاؤ"
 }

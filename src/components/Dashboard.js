@@ -21,6 +21,7 @@ import {
   Spin,
   Divider
 } from "antd";
+import { useTranslation } from "react-i18next";
 
 const Dashboard = props => {
   const { loading, data, error } = useQuery(getAllStats);
@@ -28,6 +29,18 @@ const Dashboard = props => {
   const [searchText, setSearchText] = React.useState("");
   const [searchedColumn, setSearchedColumn] = React.useState("");
   const [lineChartData, setLineChartData] = React.useState([]);
+  const [duration, setDuration] = React.useState({
+    cases: {
+      from: "",
+      to: ""
+    },
+    deaths: {
+      from: "",
+      to: ""
+    }
+  });
+
+  const { t } = useTranslation();
 
   let searchInput = "";
   const getColumnSearchProps = dataIndex => ({
@@ -198,6 +211,18 @@ const Dashboard = props => {
       ];
 
       setLineChartData(linedata);
+
+      const casesDuration = {
+        from: new Date(data.worldwideHistoricalData.cases[0].date),
+        to: new Date(data.worldwideHistoricalData.cases[cases.length - 1].date)
+      };
+
+      const deathsDuration = {
+        from: new Date(data.worldwideHistoricalData.deaths[0].date),
+        to: new Date(data.worldwideHistoricalData.deaths[death.length - 1].date)
+      };
+
+      setDuration({ cases: casesDuration, deaths: deathsDuration });
     }
   }, [data]);
   return (
@@ -205,8 +230,9 @@ const Dashboard = props => {
       <PageHeader
         title={"Covid19 Multilingual Dashboard"}
         subTitle={"Daily Updated Corona Virus Statistics"}
+        avatar={{ src: "/assets/icons/virus.svg" }}
       />
-
+      <Divider />
       <Row gutter={[16, 16]}>
         <>
           {loading && (
@@ -268,7 +294,24 @@ const Dashboard = props => {
       {!loading && data && (
         <Row gutter={[16, 16]}>
           <Col span={24}>
-            <Card className="shadow">
+            <Card
+              title={
+                <PageHeader
+                  title={t("dashboard.card.title.coronaConfirmedCases&Deaths")}
+                  extra={[
+                    <Tag key="duration" color="blue">
+                      <b>
+                        {t("country.text.duration")}{" "}
+                        {moment(duration["cases"].from).format("LL")} -{" "}
+                        {moment(duration["cases"].to).format("LL")}
+                      </b>
+                    </Tag>
+                  ]}
+                />
+              }
+              className="shadow"
+              style={{ direction: "ltr" }}
+            >
               <LineCharts data={lineChartData} />
             </Card>
           </Col>
@@ -276,7 +319,10 @@ const Dashboard = props => {
       )}
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Card className="shadow" title="Overall Status by Province">
+          <Card
+            className="shadow"
+            title={<PageHeader title={t("dashboard.card.title.table")} />}
+          >
             {loading && <Card loading />}
             {!loading && data && (
               <Table
