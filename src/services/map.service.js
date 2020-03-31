@@ -16,6 +16,7 @@ export const GET_COUNTRIES_DATA = gql`
       countryInfo {
         lat
         long
+        _id
       }
     }
   }
