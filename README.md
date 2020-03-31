@@ -1,6 +1,6 @@
 <h4 align="center">
     <a href="https://github.com/bilalajanjua/covid-multilingual-dashboard">
-      <img src="https://github.com/bilalajanjua/covid-multilingual-dashboard/raw/master/.github/logo.jpg" alt="corona-graphql-api" />
+      <img src="https://github.com/bilalajanjua/covid-multilingual-dashboard/raw/master/.github/logo.jpg" alt="corona-multilingual-dashboard" />
     </a>
     <br>
     <br>
