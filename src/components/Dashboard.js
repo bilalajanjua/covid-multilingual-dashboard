@@ -125,7 +125,6 @@ const Dashboard = props => {
       key: "country",
       width: 120,
       ...getColumnSearchProps("country"),
-      fixed: "left",
       render: (text, record) => {
         return (
           <span>
@@ -324,6 +323,7 @@ const Dashboard = props => {
               <Table
                 rowKey={"country"}
                 columns={columns}
+                pagination={false}
                 expandable={{
                   expandedRowRender: record => (
                     <>
@@ -352,7 +352,8 @@ const Dashboard = props => {
                 }}
                 dataSource={data.countries}
                 scroll={{
-                  x: true
+                  x: true,
+                  y: 600
                 }}
                 summary={() => {
                   let totalCases = 0;
