@@ -18,6 +18,8 @@ Get the updated statistics of Coronavirus or COVID-19.
 - View Statistics about total and new cases, deaths, recovered, active and critical coronavirus counts.
 - View historical data of any country about Coronavirus.
 
+View the live website here: [Covid19 Multilingual Dashboard](https://covid.janjua.tech/)
+
 ## Features
 
 ### Worldwide Statistics
