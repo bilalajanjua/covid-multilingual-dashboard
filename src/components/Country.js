@@ -10,13 +10,10 @@ import {
   Col,
   Card,
   Tag,
-  Result,
-  Button,
   Statistic
 } from "antd";
-import { Link } from "react-router-dom";
 import moment from "moment";
-import { BarChart } from "./charts/BarChart";
+import { CountryLineChart } from "./charts/CountryLineChart";
 import { useTranslation } from "react-i18next";
 import * as countries from "i18n-iso-countries";
 import { Show500Error } from "./shared/500Error";
@@ -236,7 +233,7 @@ function Country(props) {
                       )} ${t("country.card.title.totalCasesAndDeaths")}`
                 }
                 extra={[
-                  <Tag key="duration">
+                  <Tag key="duration" color="blue">
                     <b>
                       {t("country.text.duration")}{" "}
                       {moment(duration["cases"].from).format("LL")} -{" "}
@@ -249,7 +246,7 @@ function Country(props) {
             className="shadow"
             style={{ direction: "ltr" }}
           >
-            <BarChart {...GetChartProps()} height={500} />
+            <CountryLineChart {...GetChartProps()} height={500} />
           </Card>
         </div>
       )}

@@ -1,9 +1,11 @@
 import React from "react";
-import { Layout, Menu, Divider, Button, Select } from "antd";
+import { Layout, Menu, Select, Tag } from "antd";
 import { supportedLanguages } from "../../utils/supportedLanguages";
 import { useTranslation } from "react-i18next";
 import Helmet from "react-helmet";
 import moment from "moment";
+import { useQuery } from "react-apollo";
+import { GET_LAST_UPDATED } from "../../services/main.service";
 
 const { Header, Footer, Content } = Layout;
 
@@ -13,6 +15,8 @@ function MainLayout(props) {
   const pathname = props.match.path;
 
   const { t, i18n } = useTranslation();
+
+  const { loading, data } = useQuery(GET_LAST_UPDATED);
 
   const onMenuSelect = ({ key }) => {
     props.history.push(key);
@@ -33,7 +37,7 @@ function MainLayout(props) {
     >
       {supportedLanguages.map(language => (
         <Option value={language.value} key={language.name}>
-          <img src={language.flag} width={18} /> {language.name}
+          <img src={language.flag} width={18} alt={""} /> {language.name}
         </Option>
       ))}
     </Select>
@@ -68,17 +72,52 @@ function MainLayout(props) {
               <Menu.Item key="/map">{t("menu.map")}</Menu.Item>
             </Menu>
           </div>
-          <div
-          // className="d-hidden"
-          >
-            {ChangeLanguageUI()}
-          </div>
+          {!loading && data ? (
+            <div>
+              <Tag color="blue">
+                {t("site.text.lastUpdated")}{" "}
+                {moment(data.all.updated).format("LL")}
+              </Tag>
+            </div>
+          ) : null}
+          <div>{ChangeLanguageUI()}</div>
         </Header>
         <Content id="site-main-content">
           <div className="site-layout-content">{props.children}</div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>
-          Covid19 Multilingual Dashboard © 2020
+        <Footer className="site-footer">
+          <div>{t("dashboard.header.title")}</div>
+          <div>
+            {t("footer.text.developedBy")}{" "}
+            <a
+              href="https://github.com/Noraiz"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t("footer.text.name.developer")}
+            </a>{" "}
+            {t("footer.text.and")}{" "}
+            <a
+              href="https://github.com/bilalajanjua"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t("footer.text.name.developer2")}
+            </a>
+          </div>
+          <div>
+            <a
+              href="https://github.com/bilalajanjua/covid-multilingual-dashboard/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={"/assets/icons/github.png"}
+                alt="Github Logo"
+                width={32}
+              />
+            </a>
+          </div>
         </Footer>
       </Layout>
     </React.Fragment>

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import locales from "./locales";
 
-export const BarChart = ({ data, height, type }) => {
+export const CountryLineChart = ({ data, type }) => {
   const chartRef = useRef(null);
   const { t, i18n } = useTranslation();
 
@@ -17,7 +17,7 @@ export const BarChart = ({ data, height, type }) => {
 
   const options = {
     chart: {
-      type: "area",
+      type: "line",
       stacked: false,
       height: 350,
       zoom: {
@@ -37,7 +37,6 @@ export const BarChart = ({ data, height, type }) => {
           reset: true
         }
       },
-      // background: "#001529",
       defaultLocale: i18n.language,
       locales: locales
     },
@@ -71,7 +70,7 @@ export const BarChart = ({ data, height, type }) => {
       type: "datetime"
     },
     tooltip: {
-      shared: false,
+      shared: true,
       y: {
         formatter: function(val) {
           return val.toFixed(0);
@@ -101,7 +100,7 @@ export const BarChart = ({ data, height, type }) => {
           data: data.deaths
         }
       ]}
-      type="bar"
+      type="line"
       height={350}
       ref={chartRef}
     />

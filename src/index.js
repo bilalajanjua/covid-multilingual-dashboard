@@ -9,7 +9,6 @@ import * as countries from "i18n-iso-countries";
 import App from "./App";
 
 import "antd/dist/antd.css";
-import i18n from "./i18n";
 
 const client = new ApolloClient({
   uri: "https://corona-graphql.herokuapp.com/"

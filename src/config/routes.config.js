@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Link } from "react-router-dom";
 import Dashboard from "../components/Dashboard";
 import Search from "../components/Search";
 import Country from "../components/Country";
@@ -11,6 +11,12 @@ export const MainRoutes = () => (
     <Route exact path="/search" component={Search} />
     <Route exact path="/country/:name" component={Country} />
     <Route exact path="/map" component={Map} />
-    <Route render={() => <h3>No Match</h3>} />
+    <Route
+      render={() => (
+        <h3>
+          Invalid Route. <Link to="/">Back to Dashboard</Link>
+        </h3>
+      )}
+    />
   </Switch>
 );

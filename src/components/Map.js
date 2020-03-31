@@ -35,7 +35,7 @@ function Map(props) {
 
   const { loading, data, error } = useQuery(GET_COUNTRIES_DATA);
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [selectedCriteria, setSelectedCriteria] = useState(
     "searchByCountry.text.totalCases,cases"

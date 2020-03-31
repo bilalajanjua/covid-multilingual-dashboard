@@ -6,6 +6,7 @@ import Highlighter from "react-highlight-words";
 import { LineCharts } from "./charts/Linecharts";
 import { SearchOutlined } from "@ant-design/icons";
 import { getAllStats } from "../services/dashboard.service";
+import * as countries from "i18n-iso-countries";
 
 import {
   Col,
@@ -18,17 +19,28 @@ import {
   Input,
   Tag,
   Button,
-  Spin,
   Divider
 } from "antd";
-
+import { useTranslation } from "react-i18next";
 
 const Dashboard = props => {
-  const { loading, data, error } = useQuery(getAllStats);
+  const { loading, data } = useQuery(getAllStats);
 
   const [searchText, setSearchText] = React.useState("");
   const [searchedColumn, setSearchedColumn] = React.useState("");
   const [lineChartData, setLineChartData] = React.useState([]);
+  const [duration, setDuration] = React.useState({
+    cases: {
+      from: "",
+      to: ""
+    },
+    deaths: {
+      from: "",
+      to: ""
+    }
+  });
+
+  const { t, i18n } = useTranslation();
 
   let searchInput = "";
   const getColumnSearchProps = dataIndex => ({
@@ -43,7 +55,7 @@ const Dashboard = props => {
           ref={node => {
             searchInput = node;
           }}
-          placeholder={`Search ${dataIndex}`}
+          placeholder={t("dashboard.table.text.search.placeholder")}
           value={selectedKeys[0]}
           onChange={e =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -58,14 +70,14 @@ const Dashboard = props => {
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          Search
+          {t("dashboard.table.text.search")}
         </Button>
         <Button
           onClick={() => handleReset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          Reset
+          {t("dashboard.table.text.reset")}
         </Button>
       </div>
     ),
@@ -108,58 +120,66 @@ const Dashboard = props => {
   };
   const columns = [
     {
-      title: "Country",
+      title: t("dashboard.table.column.text.country"),
       dataIndex: "country",
       key: "country",
-      fixed: "left",
       width: 120,
-      render: (text, record) => (
-        <span>
-          <img src={record.countryInfo.flag} alt={text} width="18px" />{" "}
-          <h4
-            style={{
-              display: "inline"
-            }}
-          >
-            {text}
-          </h4>
-        </span>
-      ),
-      ...getColumnSearchProps("country")
+      ...getColumnSearchProps("country"),
+      fixed: "left",
+      render: (text, record) => {
+        return (
+          <span>
+            <img src={record.countryInfo.flag} alt={text} width="18px" />{" "}
+            <h4
+              style={{
+                display: "inline"
+              }}
+            >
+              {countries.getName(record.countryInfo.iso2, i18n.language)}
+            </h4>
+          </span>
+        );
+      }
     },
     {
-      title: "Total Cases",
+      title: t("searchByCountry.text.totalCases"),
       dataIndex: "cases",
       key: "cases",
       width: 100,
-
-      sorter: true
+      sorter: (a, b) => a.cases - b.cases,
+      render: text => <span className="number">{text}</span>
     },
     {
-      title: "Deaths",
+      title: t("searchByCountry.text.totalDeaths"),
       dataIndex: "deaths",
       key: "deaths",
       width: 100,
-
-      sorter: true
+      sorter: (a, b) => a.deaths - b.deaths,
+      render: text => <span className="number">{text}</span>
     },
     {
-      title: "Recovered",
+      title: t("searchByCountry.text.recoveredCases"),
       dataIndex: "recovered",
       key: "recovered",
-      width: 100
+      width: 100,
+      sorter: (a, b) => a.recovered - b.recovered,
+      render: text => <span className="number">{text}</span>
     },
     {
-      title: "Active",
+      title: t("searchByCountry.text.activeCases"),
       dataIndex: "active",
       key: "active",
-      width: 100
+      width: 100,
+      sorter: (a, b) => a.active - b.active,
+      render: text => <span className="number">{text}</span>
     },
     {
-      title: "Critical",
+      title: t("searchByCountry.text.criticalCases"),
       dataIndex: "critical",
       key: "critical",
-      width: 100
+      width: 100,
+      sorter: (a, b) => a.critical - b.critical,
+      render: text => <span className="number">{text}</span>
     }
   ];
 
@@ -183,39 +203,32 @@ const Dashboard = props => {
           y: data.all.recovered
         };
       });
-      const linedata = [
-        {
-          name: "Total Cases",
-          data: cases
-        },
-        {
-          name: "Total Deaths",
-          data: death
-        },
-        {
-          name: "Recovered Till Now",
-          data: recovered
-        }
-      ];
+
+      const linedata = { cases, death, recovered };
 
       setLineChartData(linedata);
+
+      const casesDuration = {
+        from: new Date(data.worldwideHistoricalData.cases[0].date),
+        to: new Date(data.worldwideHistoricalData.cases[cases.length - 1].date)
+      };
+
+      const deathsDuration = {
+        from: new Date(data.worldwideHistoricalData.deaths[0].date),
+        to: new Date(data.worldwideHistoricalData.deaths[death.length - 1].date)
+      };
+
+      setDuration({ cases: casesDuration, deaths: deathsDuration });
     }
   }, [data]);
   return (
     <MainLayout {...props}>
       <PageHeader
-        title={"Covid19 Multilingual Dashboard"}
-        subTitle={"Daily Updated Corona Virus Statistics"}
-        extra={
-          !loading &&
-          data && (
-            <Tag color="green">
-              Updated: {moment(data.all.updated).format("DD MMMM YYYY hh:mm a")}
-            </Tag>
-          )
-        }
+        title={t("dashboard.header.title")}
+        subTitle={t("dashboard.header.subTitle")}
+        avatar={{ src: "/assets/icons/virus.svg" }}
       />
-
+      <Divider />
       <Row gutter={[16, 16]}>
         <>
           {loading && (
@@ -236,7 +249,7 @@ const Dashboard = props => {
               <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                 <Card className="shadow">
                   <Statistic
-                    title="Total Cases"
+                    title={t("searchByCountry.text.totalCases")}
                     value={data.all.cases}
                     valueStyle={{ color: "#5ba0c9", fontSize: "30px" }}
                   />
@@ -245,7 +258,7 @@ const Dashboard = props => {
               <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                 <Card className="shadow">
                   <Statistic
-                    title="Recoverd"
+                    title={t("searchByCountry.text.recoveredCases")}
                     value={data.all.recovered}
                     valueStyle={{ color: "#3f8600", fontSize: "30px" }}
                   />
@@ -254,7 +267,7 @@ const Dashboard = props => {
               <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                 <Card className="shadow">
                   <Statistic
-                    title="Deaths"
+                    title={t("searchByCountry.text.totalDeaths")}
                     value={data.all.deaths}
                     valueStyle={{ color: "#c06956", fontSize: "30px" }}
                   />
@@ -268,16 +281,33 @@ const Dashboard = props => {
       {loading && (
         <div style={{ textAlign: "center" }}>
           <Row gutter={[16, 16]}>
-          <Col span={24}>
-            <Card loading/>
-          </Col>
-        </Row>
+            <Col span={24}>
+              <Card loading />
+            </Col>
+          </Row>
         </div>
       )}
       {!loading && data && (
         <Row gutter={[16, 16]}>
           <Col span={24}>
-            <Card className="shadow">
+            <Card
+              title={
+                <PageHeader
+                  title={t("dashboard.card.title.coronaConfirmedCases&Deaths")}
+                  extra={[
+                    <Tag key="duration" color="blue">
+                      <b>
+                        {t("country.text.duration")}{" "}
+                        {moment(duration["cases"].from).format("LL")} -{" "}
+                        {moment(duration["cases"].to).format("LL")}
+                      </b>
+                    </Tag>
+                  ]}
+                />
+              }
+              className="shadow"
+              style={{ direction: "ltr" }}
+            >
               <LineCharts data={lineChartData} />
             </Card>
           </Col>
@@ -285,29 +315,103 @@ const Dashboard = props => {
       )}
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Card className="shadow" title="Overall Status by Province">
+          <Card
+            className="shadow"
+            title={<PageHeader title={t("dashboard.card.title.table")} />}
+          >
             {loading && <Card loading />}
             {!loading && data && (
               <Table
                 rowKey={"country"}
                 columns={columns}
-                style={{ overflowX: "auto" }}
                 expandable={{
                   expandedRowRender: record => (
                     <>
-                      <Descriptions title="Statistical Info">
-                        <Descriptions.Item label="Cases Per One Million">
-                          {record.casesPerOneMillion}
+                      <Descriptions
+                        title={t("dashboard.table.text.statisticalInfo")}
+                        layout="vertical"
+                        bordered
+                      >
+                        <Descriptions.Item
+                          label={t("dashboard.table.text.casesPerMillion")}
+                        >
+                          <span className="number">
+                            {record.casesPerOneMillion}
+                          </span>
                         </Descriptions.Item>
-                        <Descriptions.Item label="Deaths Per One Million ">
-                          {record.deathsPerOneMillion}
+                        <Descriptions.Item
+                          label={t("dashboard.table.text.deathsPerMillion")}
+                        >
+                          <span className="number">
+                            {record.deathsPerOneMillion}
+                          </span>
                         </Descriptions.Item>
                       </Descriptions>
                     </>
-                  ),
-                  rowExpandable: record => record.name !== "Not Expandable"
+                  )
                 }}
                 dataSource={data.countries}
+                scroll={{
+                  x: true
+                }}
+                summary={() => {
+                  let totalCases = 0;
+                  let totalDeaths = 0;
+                  let totalRecovered = 0;
+                  let totalActive = 0;
+                  let totalCritical = 0;
+
+                  data.countries.forEach(
+                    ({ cases, deaths, recovered, active, critical }) => {
+                      totalCases += cases;
+                      totalDeaths += deaths;
+                      totalRecovered += recovered;
+                      totalActive += active;
+                      totalCritical += critical;
+                    }
+                  );
+
+                  return (
+                    <>
+                      <tr className="table-summary">
+                        <th>{t("dashboard.table.text.summary")}</th>
+                        <td>
+                          <span>
+                            <b>
+                              {data.countries.length}{" "}
+                              {t("dashboard.table.text.countries")}
+                            </b>
+                          </span>
+                        </td>
+                        <td>
+                          <span>
+                            <b>{totalCases}</b>
+                          </span>
+                        </td>
+                        <td>
+                          <span>
+                            <b>{totalDeaths}</b>
+                          </span>
+                        </td>
+                        <td>
+                          <span>
+                            <b>{totalRecovered}</b>
+                          </span>
+                        </td>
+                        <td>
+                          <span>
+                            <b>{totalActive}</b>
+                          </span>
+                        </td>
+                        <td>
+                          <span>
+                            <b>{totalCritical}</b>
+                          </span>
+                        </td>
+                      </tr>
+                    </>
+                  );
+                }}
               />
             )}
           </Card>
