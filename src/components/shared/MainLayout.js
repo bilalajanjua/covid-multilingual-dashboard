@@ -75,7 +75,8 @@ function MainLayout(props) {
           {!loading && data ? (
             <div>
               <Tag color="blue">
-                Last Updated: {moment(data.all.updated).format("LLL")}
+                {t("site.text.lastUpdated")}{" "}
+                {moment(data.all.updated).format("LL")}
               </Tag>
             </div>
           ) : null}
@@ -84,8 +85,27 @@ function MainLayout(props) {
         <Content id="site-main-content">
           <div className="site-layout-content">{props.children}</div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>
-          Covid19 Multilingual Dashboard © 2020
+        <Footer className="site-footer">
+          <div>{t("dashboard.header.title")}</div>
+          <div>
+            {t("footer.text.developedBy")}{" "}
+            <a href="https://github.com/Noraiz" target="_blank">
+              {t("footer.text.name.developer")}
+            </a>{" "}
+            {t("footer.text.and")}{" "}
+            <a href="https://github.com/bilalajanjua" target="_blank">
+              {t("footer.text.name.developer2")}
+            </a>
+          </div>
+          <div>
+            <a href="https://github.com/bilalajanjua/covid-multilingual-dashboard/">
+              <img
+                src={"/assets/icons/github.png"}
+                alt="Github Logo"
+                width={32}
+              />
+            </a>
+          </div>
         </Footer>
       </Layout>
     </React.Fragment>

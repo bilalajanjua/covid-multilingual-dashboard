@@ -116,6 +116,12 @@ body * {
   margin-left: 5px;
   margin-right: 5px;
 }
+.table-summary {
+  background: #fafafa;
+}
+th {
+  font-weight: 900 !important;
+}
 
 /* Map Styles */
 .control-panel {
@@ -124,4 +130,11 @@ body * {
   background: rgba(255, 255, 255, 0.7);
   width: 200px;
   position: absolute;
+}
+
+/* Footer Styles */
+.site-footer {
+  background: #001529 !important;
+  color: white !important;
+  text-align: center !important;
 }

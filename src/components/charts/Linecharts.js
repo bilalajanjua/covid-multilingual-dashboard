@@ -81,7 +81,7 @@ export const LineCharts = ({ data }) => {
           shared: true,
           y: {
             formatter: function(val) {
-              return val.toFixed(0);
+              return val;
             }
           },
           style: {
@@ -90,7 +90,20 @@ export const LineCharts = ({ data }) => {
           }
         }
       }}
-      series={data}
+      series={[
+        {
+          name: t("chart.series.title.totalCases"),
+          data: data.cases
+        },
+        {
+          name: t("chart.series.title.totalDeaths"),
+          data: data.death
+        },
+        {
+          name: t("chart.series.title.recoveredTillNow"),
+          data: data.recovered
+        }
+      ]}
       type="line"
       height={400}
     />
