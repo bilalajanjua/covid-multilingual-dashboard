@@ -51,7 +51,16 @@ The project is developed using React and GraphQL. The data is fetched from [Nove
 
 ## Contribution
 
-The project is open for contribution in adding new languages.
+This dashboard is developed by:
+
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/bilalajanjua"><img src="https://avatars.githubusercontent.com/u/11469682?v=3" width="100px;" alt=""/><br /><sub><b>Bilal A. Janjua</b></sub></a></td>
+    <td align="center"><a href="https://github.com/Noraiz"><img src="https://avatars.githubusercontent.com/u/19635234?v=3" width="100px;" alt=""/><br /><sub><b>Muhammad Noraiz</b></sub></a></td>
+  </tr>
+</table>
+
+Contributions of any kind are welcome!
 
 ## License
 
