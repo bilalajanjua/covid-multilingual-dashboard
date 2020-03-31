@@ -19,14 +19,12 @@ import {
   Input,
   Tag,
   Button,
-  Spin,
   Divider
 } from "antd";
 import { useTranslation } from "react-i18next";
-import Text from "antd/lib/typography/Text";
 
 const Dashboard = props => {
-  const { loading, data, error } = useQuery(getAllStats);
+  const { loading, data } = useQuery(getAllStats);
 
   const [searchText, setSearchText] = React.useState("");
   const [searchedColumn, setSearchedColumn] = React.useState("");
@@ -128,7 +126,7 @@ const Dashboard = props => {
       width: 120,
       ...getColumnSearchProps("country"),
       fixed: "left",
-      render: (text, record, index) => {
+      render: (text, record) => {
         return (
           <span>
             <img src={record.countryInfo.flag} alt={text} width="18px" />{" "}

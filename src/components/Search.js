@@ -5,7 +5,6 @@ import {
   Divider,
   Select,
   Spin,
-  Result,
   Card,
   Avatar,
   Tag,
@@ -17,6 +16,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { GET_COUNTRIES_LIST } from "../services/search.service";
 import { useTranslation } from "react-i18next";
 import * as countries from "i18n-iso-countries";
+import { Show500Error } from "./shared/500Error";
 
 const { Option } = Select;
 
@@ -216,13 +216,7 @@ function Search(props) {
           </Card>
         </div>
       )}
-      {!loading && error && (
-        <Result
-          status="500"
-          title="Internal Server Error"
-          subTitle="Sorry, there was an error while fetching the data from server. Please try reloading the page!."
-        />
-      )}
+      {!loading && error && <Show500Error />}
     </MainLayout>
   );
 }

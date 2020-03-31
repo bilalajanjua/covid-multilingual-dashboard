@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Menu, Divider, Button, Select, Tag } from "antd";
+import { Layout, Menu, Select, Tag } from "antd";
 import { supportedLanguages } from "../../utils/supportedLanguages";
 import { useTranslation } from "react-i18next";
 import Helmet from "react-helmet";
@@ -37,7 +37,7 @@ function MainLayout(props) {
     >
       {supportedLanguages.map(language => (
         <Option value={language.value} key={language.name}>
-          <img src={language.flag} width={18} /> {language.name}
+          <img src={language.flag} width={18} alt={""} /> {language.name}
         </Option>
       ))}
     </Select>
@@ -89,16 +89,28 @@ function MainLayout(props) {
           <div>{t("dashboard.header.title")}</div>
           <div>
             {t("footer.text.developedBy")}{" "}
-            <a href="https://github.com/Noraiz" target="_blank">
+            <a
+              href="https://github.com/Noraiz"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {t("footer.text.name.developer")}
             </a>{" "}
             {t("footer.text.and")}{" "}
-            <a href="https://github.com/bilalajanjua" target="_blank">
+            <a
+              href="https://github.com/bilalajanjua"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {t("footer.text.name.developer2")}
             </a>
           </div>
           <div>
-            <a href="https://github.com/bilalajanjua/covid-multilingual-dashboard/">
+            <a
+              href="https://github.com/bilalajanjua/covid-multilingual-dashboard/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img
                 src={"/assets/icons/github.png"}
                 alt="Github Logo"

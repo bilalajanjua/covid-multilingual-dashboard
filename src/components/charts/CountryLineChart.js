@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import locales from "./locales";
 
-export const CountryLineChart = ({ data, height, type }) => {
+export const CountryLineChart = ({ data, type }) => {
   const chartRef = useRef(null);
   const { t, i18n } = useTranslation();
 
