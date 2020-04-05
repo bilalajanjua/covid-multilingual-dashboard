@@ -41,7 +41,6 @@ export const GET_COUNTRY_STATS = gql`
     }
     historicalStats: historicalByCountry(name: $name) {
       country
-      province
       timeline {
         cases
         deaths
