@@ -10,7 +10,7 @@ import {
   Col,
   Card,
   Tag,
-  Statistic
+  Statistic,
 } from "antd";
 import moment from "moment";
 import { CountryLineChart } from "./charts/CountryLineChart";
@@ -26,18 +26,18 @@ function Country(props) {
   const [duration, setDuration] = useState({
     cases: {
       from: "",
-      to: ""
+      to: "",
     },
     deaths: {
       from: "",
-      to: ""
-    }
+      to: "",
+    },
   });
 
   const { loading, data, error } = useQuery(GET_COUNTRY_STATS, {
     variables: {
-      name
-    }
+      name,
+    },
   });
 
   useEffect(() => {
@@ -48,12 +48,12 @@ function Country(props) {
 
       const cases = {
         from: new Date(casesTimeline[0]),
-        to: new Date(casesTimeline[casesTimeline.length - 1])
+        to: new Date(casesTimeline[casesTimeline.length - 1]),
       };
 
       const deaths = {
         from: new Date(deathsTimeline[0]),
-        to: new Date(deathsTimeline[deathsTimeline.length - 1])
+        to: new Date(deathsTimeline[deathsTimeline.length - 1]),
       };
 
       setDuration({ cases, deaths });
@@ -63,18 +63,18 @@ function Country(props) {
   const GetChartProps = () => {
     const casesTimeline = data.historicalStats.timeline["cases"];
     const casesTimelineKeys = Object.keys(casesTimeline);
-    const cases = casesTimelineKeys.map(date => {
+    const cases = casesTimelineKeys.map((date) => {
       return [new Date(date).getTime(), casesTimeline[date]];
     });
 
     const deathsTimeline = data.historicalStats.timeline["deaths"];
     const deathsTimelineKeys = Object.keys(deathsTimeline);
-    const deaths = deathsTimelineKeys.map(date => {
+    const deaths = deathsTimelineKeys.map((date) => {
       return [new Date(date).getTime(), deathsTimeline[date]];
     });
 
     return {
-      data: { cases, deaths }
+      data: { cases, deaths },
     };
   };
 
@@ -117,7 +117,7 @@ function Country(props) {
             )}
             avatar={{
               src: data.generalStats.countryInfo.flag,
-              shape: "square"
+              shape: "square",
             }}
             subTitle={
               t("site.direction") === "ltr"
@@ -134,7 +134,7 @@ function Country(props) {
               <Tag color="red" key="totalCasesTag">
                 {t("country.text.totalCases")}{" "}
                 <span className="number">{data.generalStats.cases}</span>
-              </Tag>
+              </Tag>,
             ]}
           />
           <Divider />
@@ -209,7 +209,7 @@ function Country(props) {
                 <Statistic
                   title={t("country.text.deathsPerMillion")}
                   value={data.generalStats.deathsPerOneMillion}
-                  precision={0}
+                  precision={2}
                   suffix={t("country.text.perMillion")}
                 />
               </Card>
@@ -239,7 +239,7 @@ function Country(props) {
                       {moment(duration["cases"].from).format("LL")} -{" "}
                       {moment(duration["cases"].to).format("LL")}
                     </b>
-                  </Tag>
+                  </Tag>,
                 ]}
               />
             }
