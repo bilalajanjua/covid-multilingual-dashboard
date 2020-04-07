@@ -7,7 +7,7 @@ export const LineCharts = ({ data }) => {
   const chartRef = useRef(null);
   const { t, i18n } = useTranslation();
 
-  i18n.on("languageChanged", lang => {
+  i18n.on("languageChanged", (lang) => {
     if (chartRef.current) {
       const chart = chartRef.current.chart;
       chart.setLocale(lang);
@@ -22,11 +22,11 @@ export const LineCharts = ({ data }) => {
         stroke: {
           width: 3,
           curve: "straight",
-          dashArray: [0, 0, 3]
+          dashArray: [0, 0, 3],
         },
         theme: {
           mode: "light",
-          palette: "palette4"
+          palette: "palette4",
         },
         chart: {
           type: "line",
@@ -35,7 +35,7 @@ export const LineCharts = ({ data }) => {
           zoom: {
             type: "x",
             enabled: true,
-            autoScaleYaxis: true
+            autoScaleYaxis: true,
           },
           toolbar: {
             autoSelected: "zoom",
@@ -46,17 +46,17 @@ export const LineCharts = ({ data }) => {
               zoomin: true,
               zoomout: true,
               pan: true,
-              reset: true
-            }
+              reset: true,
+            },
           },
           defaultLocale: i18n.language,
-          locales: locales
+          locales: locales,
         },
         dataLabels: {
-          enabled: false
+          enabled: false,
         },
         markers: {
-          size: 0
+          size: 0,
         },
         yaxis: [
           {
@@ -64,45 +64,45 @@ export const LineCharts = ({ data }) => {
             tickAmount: 10,
             seriesName: "Total Cases",
             labels: {
-              formatter: value => {
+              formatter: (value) => {
                 var val = Math.abs(value);
                 if (val >= 1000) {
                   val = (val / 1000).toFixed(1) + " K";
                 }
                 return val;
-              }
-            }
-          }
+              },
+            },
+          },
         ],
         xaxis: {
-          type: "datetime"
+          type: "datetime",
         },
         tooltip: {
           shared: true,
           y: {
-            formatter: function(val) {
-              return val;
-            }
+            formatter: function (val) {
+              return val.toLocaleString();
+            },
           },
           style: {
             fontSize: "14px",
-            fontFamily: t("site.font")
-          }
-        }
+            fontFamily: t("site.font"),
+          },
+        },
       }}
       series={[
         {
           name: t("chart.series.title.totalCases"),
-          data: data.cases
+          data: data.cases,
         },
         {
           name: t("chart.series.title.totalDeaths"),
-          data: data.death
+          data: data.death,
         },
         {
           name: t("chart.series.title.recoveredTillNow"),
-          data: data.recovered
-        }
+          data: data.recovered,
+        },
       ]}
       type="line"
       height={400}

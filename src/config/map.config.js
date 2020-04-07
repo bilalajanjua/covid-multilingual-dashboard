@@ -18,13 +18,13 @@ export const clusterLayer = {
       1000,
       "#f1f075",
       10000,
-      "#f28cb1"
+      "#f28cb1",
     ],
-    "circle-radius": ["step", ["get", "cases"], 30, 1000, 50, 10000, 70]
-  }
+    "circle-radius": ["step", ["get", "cases"], 30, 1000, 50, 10000, 70],
+  },
 };
 
-export const clusterCountLayer = criteriaTitle => {
+export const clusterCountLayer = (criteriaTitle) => {
   return {
     id: "cluster-count",
     type: "symbol",
@@ -35,14 +35,14 @@ export const clusterCountLayer = criteriaTitle => {
         ["get", "country"],
         { "font-scale": 0.8 },
         "\n",
-        ["get", "cases"],
+        ["get", "casesString"],
         "\n",
         criteriaTitle,
-        { "font-scale": 0.8 }
+        { "font-scale": 0.8 },
       ],
       "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
-      "text-size": 12
-    }
+      "text-size": 12,
+    },
   };
 };
 
@@ -54,6 +54,6 @@ export const unclusteredPointLayer = {
     "circle-color": "#11b4da",
     "circle-radius": 4,
     "circle-stroke-width": 1,
-    "circle-stroke-color": "#fff"
-  }
+    "circle-stroke-color": "#fff",
+  },
 };

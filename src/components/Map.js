@@ -6,7 +6,7 @@ import ReactMapGL, {
   GeolocateControl,
   Source,
   Layer,
-  setRTLTextPlugin
+  setRTLTextPlugin,
 } from "react-map-gl";
 
 import { useQuery } from "react-apollo";
@@ -19,7 +19,7 @@ import {
   MAP_RTL_LINK,
   clusterLayer,
   clusterCountLayer,
-  unclusteredPointLayer
+  unclusteredPointLayer,
 } from "../config/map.config.js";
 import { GET_COUNTRIES_DATA } from "../services/map.service";
 
@@ -47,7 +47,7 @@ function Map(props) {
 
   const [mapFeatures, setMapFeatures] = useState({
     type: "FeatureCollection",
-    features: []
+    features: [],
   });
 
   const [viewport, setViewport] = useState({
@@ -55,7 +55,7 @@ function Map(props) {
     height: 600,
     latitude: 30,
     longitude: 70,
-    zoom: 3
+    zoom: 3,
   });
 
   useLayoutEffect(() => {
@@ -64,7 +64,7 @@ function Map(props) {
         const width = containerRef.current.offsetWidth;
         setViewport({
           ...viewport,
-          width
+          width,
         });
       }
     }
@@ -74,27 +74,28 @@ function Map(props) {
   }, []);
 
   const getMapFeatures = () => {
-    const features = data.countries.map(country => {
+    const features = data.countries.map((country) => {
       return {
         type: "Feature",
         properties: {
           cases: country[selectedCriteria.split(",")[1]],
-          country: country.country
+          casesString: country[selectedCriteria.split(",")[1]].toLocaleString(),
+          country: country.country,
         },
         geometry: {
           type: "Point",
-          coordinates: [country.countryInfo.long, country.countryInfo.lat]
-        }
+          coordinates: [country.countryInfo.long, country.countryInfo.lat],
+        },
       };
     });
 
     setMapFeatures({
       type: "FeatureCollection",
-      features
+      features,
     });
   };
 
-  const onCriteriaSelection = criteria => {
+  const onCriteriaSelection = (criteria) => {
     setSelectedCriteria(criteria);
   };
 
@@ -138,13 +139,13 @@ function Map(props) {
                           right: 10,
                           position: "absolute",
                           direction: "ltr",
-                          top: 10
+                          top: 10,
                         }
                       : {
                           left: 10,
                           direction: "rtl",
                           position: "absolute",
-                          top: 10
+                          top: 10,
                         }
                   }
                 >

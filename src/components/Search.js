@@ -9,7 +9,7 @@ import {
   Avatar,
   Tag,
   Row,
-  Col
+  Col,
 } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useQuery } from "@apollo/react-hooks";
@@ -23,7 +23,7 @@ const { Option } = Select;
 const gridStyle = {
   width: "100%",
   textAlign: "center",
-  cursor: "pointer"
+  cursor: "pointer",
 };
 
 function Search(props) {
@@ -39,15 +39,15 @@ function Search(props) {
 
   useEffect(() => {
     refetch({
-      criteria: selectedSortValue
+      criteria: selectedSortValue,
     });
   }, [selectedSortValue, refetch]);
 
-  const onCountrySelection = country => {
+  const onCountrySelection = (country) => {
     props.history.push(`/country/${country}`);
   };
 
-  const onSortSelect = sortBy => {
+  const onSortSelect = (sortBy) => {
     const [title, criteria] = sortBy.split(",");
     setSortTitle(title);
     setSortValue(criteria);
@@ -61,8 +61,8 @@ function Search(props) {
           icon: <SearchOutlined />,
           style: {
             background: "none",
-            color: "black"
-          }
+            color: "black",
+          },
         }}
         tags={
           data
@@ -70,7 +70,7 @@ function Search(props) {
                 <Tag key="totalCountriesTag" color={"blue"}>
                   {t("searchByCountry.text.totalCountries")}{" "}
                   <span className="number">{data.countries.length}</span>
-                </Tag>
+                </Tag>,
               ]
             : null
         }
@@ -174,19 +174,19 @@ function Search(props) {
             <p className="card-helper" style={{ textAlign: "center" }}>
               <span
                 dangerouslySetInnerHTML={{
-                  __html: t("searchByCountry.text.helper.1")
+                  __html: t("searchByCountry.text.helper.1"),
                 }}
               ></span>{" "}
               <b>{t(selectedSortTitle)}</b>{" "}
               <span
                 dangerouslySetInnerHTML={{
-                  __html: t("searchByCountry.text.helper.2")
+                  __html: t("searchByCountry.text.helper.2"),
                 }}
               ></span>
             </p>
             <Divider />
             <Row>
-              {data.countries.slice(0, 24).map(country => (
+              {data.countries.slice(0, 24).map((country) => (
                 <Col xs={12} sm={12} md={6} xl={4} key={country.country}>
                   <Card.Grid
                     style={gridStyle}
@@ -206,7 +206,7 @@ function Search(props) {
                     <Tag color={"blue"}>
                       {t(selectedSortTitle)}:{" "}
                       <span className="number">
-                        {country[selectedSortValue]}
+                        {country[selectedSortValue].toLocaleString()}
                       </span>
                     </Tag>
                   </Card.Grid>

@@ -8,7 +8,7 @@ export const CountryLineChart = ({ data, type }) => {
   const chartRef = useRef(null);
   const { t, i18n } = useTranslation();
 
-  i18n.on("languageChanged", lang => {
+  i18n.on("languageChanged", (lang) => {
     if (chartRef.current) {
       const chart = chartRef.current.chart;
       chart.setLocale(lang);
@@ -23,7 +23,7 @@ export const CountryLineChart = ({ data, type }) => {
       zoom: {
         type: "x",
         enabled: true,
-        autoScaleYaxis: true
+        autoScaleYaxis: true,
       },
       toolbar: {
         autoSelected: "zoom",
@@ -34,27 +34,27 @@ export const CountryLineChart = ({ data, type }) => {
           zoomin: true,
           zoomout: true,
           pan: true,
-          reset: true
-        }
+          reset: true,
+        },
       },
       defaultLocale: i18n.language,
-      locales: locales
+      locales: locales,
     },
     theme: {
       mode: "light",
-      palette: "palette4"
+      palette: "palette4",
     },
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     markers: {
-      size: 0
+      size: 0,
     },
     yaxis: {
       labels: {
-        formatter: function(val) {
+        formatter: function (val) {
           return val.toFixed(0);
-        }
+        },
       },
       title: {
         text: type,
@@ -62,26 +62,26 @@ export const CountryLineChart = ({ data, type }) => {
           fontSize: "18px",
           fontFamily: t("site.font"),
           fontWeight: 400,
-          cssClass: "apexcharts-yaxis-label"
-        }
-      }
+          cssClass: "apexcharts-yaxis-label",
+        },
+      },
     },
     xaxis: {
-      type: "datetime"
+      type: "datetime",
     },
     tooltip: {
       shared: true,
       y: {
-        formatter: function(val) {
-          return val.toFixed(0);
-        }
+        formatter: function (val) {
+          return val.toLocaleString();
+        },
       },
       style: {
         fontSize: "14px",
-        fontFamily: t("site.font")
-      }
+        fontFamily: t("site.font"),
+      },
     },
-    colors: ["#5ba1c9", "#f52225"]
+    colors: ["#5ba1c9", "#f52225"],
   };
   return (
     <ReactApexChart
@@ -91,14 +91,14 @@ export const CountryLineChart = ({ data, type }) => {
           name: `${t("chart.series.title.recorded")} ${t(
             "chart.type.title.cases"
           )}`,
-          data: data.cases
+          data: data.cases,
         },
         {
           name: `${t("chart.series.title.recorded")} ${t(
             "chart.type.title.deaths"
           )}`,
-          data: data.deaths
-        }
+          data: data.deaths,
+        },
       ]}
       type="line"
       height={350}

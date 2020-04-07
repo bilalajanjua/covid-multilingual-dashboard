@@ -19,11 +19,11 @@ import {
   Input,
   Tag,
   Button,
-  Divider
+  Divider,
 } from "antd";
 import { useTranslation } from "react-i18next";
 
-const Dashboard = props => {
+const Dashboard = (props) => {
   const { loading, data } = useQuery(getAllStats);
 
   const [searchText, setSearchText] = React.useState("");
@@ -32,32 +32,32 @@ const Dashboard = props => {
   const [duration, setDuration] = React.useState({
     cases: {
       from: "",
-      to: ""
+      to: "",
     },
     deaths: {
       from: "",
-      to: ""
-    }
+      to: "",
+    },
   });
 
   const { t, i18n } = useTranslation();
 
   let searchInput = "";
-  const getColumnSearchProps = dataIndex => ({
+  const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
       confirm,
-      clearFilters
+      clearFilters,
     }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={node => {
+          ref={(node) => {
             searchInput = node;
           }}
           placeholder={t("dashboard.table.text.search.placeholder")}
           value={selectedKeys[0]}
-          onChange={e =>
+          onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -81,20 +81,17 @@ const Dashboard = props => {
         </Button>
       </div>
     ),
-    filterIcon: filtered => (
+    filterIcon: (filtered) => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: visible => {
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.select());
       }
     },
-    render: text =>
+    render: (text) =>
       searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
@@ -104,7 +101,7 @@ const Dashboard = props => {
         />
       ) : (
         text
-      )
+      ),
   });
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -114,7 +111,7 @@ const Dashboard = props => {
     setSearchedColumn(dataIndex);
   };
 
-  const handleReset = clearFilters => {
+  const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
@@ -131,14 +128,14 @@ const Dashboard = props => {
             <img src={record.countryInfo.flag} alt={text} width="18px" />{" "}
             <h4
               style={{
-                display: "inline"
+                display: "inline",
               }}
             >
               {countries.getName(record.countryInfo.iso2, i18n.language)}
             </h4>
           </span>
         );
-      }
+      },
     },
     {
       title: t("searchByCountry.text.totalCases"),
@@ -146,7 +143,7 @@ const Dashboard = props => {
       key: "cases",
       width: 100,
       sorter: (a, b) => a.cases - b.cases,
-      render: text => <span className="number">{text}</span>
+      render: (text) => <span className="number">{text.toLocaleString()}</span>,
     },
     {
       title: t("searchByCountry.text.totalDeaths"),
@@ -154,7 +151,7 @@ const Dashboard = props => {
       key: "deaths",
       width: 100,
       sorter: (a, b) => a.deaths - b.deaths,
-      render: text => <span className="number">{text}</span>
+      render: (text) => <span className="number">{text.toLocaleString()}</span>,
     },
     {
       title: t("searchByCountry.text.recoveredCases"),
@@ -162,7 +159,7 @@ const Dashboard = props => {
       key: "recovered",
       width: 100,
       sorter: (a, b) => a.recovered - b.recovered,
-      render: text => <span className="number">{text}</span>
+      render: (text) => <span className="number">{text.toLocaleString()}</span>,
     },
     {
       title: t("searchByCountry.text.activeCases"),
@@ -170,7 +167,7 @@ const Dashboard = props => {
       key: "active",
       width: 100,
       sorter: (a, b) => a.active - b.active,
-      render: text => <span className="number">{text}</span>
+      render: (text) => <span className="number">{text.toLocaleString()}</span>,
     },
     {
       title: t("searchByCountry.text.criticalCases"),
@@ -178,28 +175,28 @@ const Dashboard = props => {
       key: "critical",
       width: 100,
       sorter: (a, b) => a.critical - b.critical,
-      render: text => <span className="number">{text}</span>
-    }
+      render: (text) => <span className="number">{text.toLocaleString()}</span>,
+    },
   ];
 
   useEffect(() => {
     if (data) {
-      const cases = data.worldwideHistoricalData.cases.map(x => {
+      const cases = data.worldwideHistoricalData.cases.map((x) => {
         return {
           x: new Date(x.date).getTime(),
-          y: x.count
+          y: x.count,
         };
       });
-      const death = data.worldwideHistoricalData.deaths.map(x => {
+      const death = data.worldwideHistoricalData.deaths.map((x) => {
         return {
           x: new Date(x.date).getTime(),
-          y: x.count
+          y: x.count,
         };
       });
-      const recovered = data.worldwideHistoricalData.cases.map(x => {
+      const recovered = data.worldwideHistoricalData.cases.map((x) => {
         return {
           x: new Date(x.date).getTime(),
-          y: data.all.recovered
+          y: data.all.recovered,
         };
       });
 
@@ -209,12 +206,14 @@ const Dashboard = props => {
 
       const casesDuration = {
         from: new Date(data.worldwideHistoricalData.cases[0].date),
-        to: new Date(data.worldwideHistoricalData.cases[cases.length - 1].date)
+        to: new Date(data.worldwideHistoricalData.cases[cases.length - 1].date),
       };
 
       const deathsDuration = {
         from: new Date(data.worldwideHistoricalData.deaths[0].date),
-        to: new Date(data.worldwideHistoricalData.deaths[death.length - 1].date)
+        to: new Date(
+          data.worldwideHistoricalData.deaths[death.length - 1].date
+        ),
       };
 
       setDuration({ cases: casesDuration, deaths: deathsDuration });
@@ -300,7 +299,7 @@ const Dashboard = props => {
                         {moment(duration["cases"].from).format("LL")} -{" "}
                         {moment(duration["cases"].to).format("LL")}
                       </b>
-                    </Tag>
+                    </Tag>,
                   ]}
                 />
               }
@@ -325,7 +324,7 @@ const Dashboard = props => {
                 columns={columns}
                 pagination={false}
                 expandable={{
-                  expandedRowRender: record => (
+                  expandedRowRender: (record) => (
                     <>
                       <Descriptions
                         title={t("dashboard.table.text.statisticalInfo")}
@@ -348,12 +347,12 @@ const Dashboard = props => {
                         </Descriptions.Item>
                       </Descriptions>
                     </>
-                  )
+                  ),
                 }}
                 dataSource={data.countries}
                 scroll={{
                   x: true,
-                  y: 600
+                  y: 600,
                 }}
                 summary={() => {
                   let totalCases = 0;
@@ -386,27 +385,27 @@ const Dashboard = props => {
                         </td>
                         <td>
                           <span>
-                            <b>{totalCases}</b>
+                            <b>{totalCases.toLocaleString()}</b>
                           </span>
                         </td>
                         <td>
                           <span>
-                            <b>{totalDeaths}</b>
+                            <b>{totalDeaths.toLocaleString()}</b>
                           </span>
                         </td>
                         <td>
                           <span>
-                            <b>{totalRecovered}</b>
+                            <b>{totalRecovered.toLocaleString()}</b>
                           </span>
                         </td>
                         <td>
                           <span>
-                            <b>{totalActive}</b>
+                            <b>{totalActive.toLocaleString()}</b>
                           </span>
                         </td>
                         <td>
                           <span>
-                            <b>{totalCritical}</b>
+                            <b>{totalCritical.toLocaleString()}</b>
                           </span>
                         </td>
                       </tr>
